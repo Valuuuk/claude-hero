@@ -403,7 +403,7 @@
 </nav>
 
 <section class="hero" id="hero">
-  <video class="hero-video" id="heroVideo" src="hero.mp4" muted playsinline autoplay loop preload="auto" webkit-playsinline></video>
+  <video class="hero-video" id="heroVideo" src="hero.mp4" muted playsinline autoplay preload="auto" webkit-playsinline></video>
   <div class="overlay-top"></div>
   <div class="overlay-bottom"></div>
 
@@ -526,6 +526,42 @@
     </div>
   </div>
 </section>
+
+<script>
+  (function () {
+    const v = document.getElementById('heroVideo');
+    if (!v) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.setAttribute('loop', '');
+      return;
+    }
+
+    let rewindRAF = null;
+    let lastT = 0;
+
+    function rewindStep(now) {
+      const dt = (now - lastT) / 1000;
+      lastT = now;
+      const next = v.currentTime - dt;
+      if (next <= 0) {
+        v.currentTime = 0;
+        cancelAnimationFrame(rewindRAF);
+        rewindRAF = null;
+        v.play().catch(() => {});
+      } else {
+        v.currentTime = next;
+        rewindRAF = requestAnimationFrame(rewindStep);
+      }
+    }
+
+    v.addEventListener('ended', () => {
+      v.pause();
+      lastT = performance.now();
+      rewindRAF = requestAnimationFrame(rewindStep);
+    });
+  })();
+</script>
 
 </body>
 </html>
