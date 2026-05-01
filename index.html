@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>CLAUDE HERO — Стань героєм ери AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --paper: #f5efe4;
+    --paper-warm: #ede4d3;
+    --ink: #0a0a0a;
+    --ink-soft: #1a1a1a;
+    --orange: #d97757;
+    --orange-deep: #b85d3f;
+    --ash: #4a4541;
+    --ash-light: #8a847e;
+
+    --font-display: 'Unbounded', 'Inter', sans-serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: clamp(16px, 2.5vw, 28px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 3vw, 36px);
+    padding: 8px 8px 8px 22px;
+    background: rgba(245, 239, 228, 0.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(10, 10, 10, 0.08);
+    border-radius: 100px;
+    box-shadow: 0 4px 30px rgba(10, 10, 10, 0.08);
+    width: max-content;
+    max-width: calc(100vw - 32px);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-weight: 700; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .nav-brand-mark { width: 22px; height: 22px; background: var(--orange); border-radius: 50%; flex-shrink: 0; position: relative; }
+  .nav-brand-mark::before { content: '✱'; position: absolute; inset: 0; color: var(--paper); font-size: 16px; line-height: 22px; text-align: center; font-weight: 900; }
+  .nav-links { display: flex; gap: clamp(14px, 2vw, 26px); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; }
+  .nav-links a { color: var(--ink); text-decoration: none; opacity: 0.65; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta { background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 100px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--orange); }
+  @media (max-width: 820px) { .nav-links { display: none; } nav { padding: 6px 6px 6px 16px; gap: 12px; } }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    z-index: 1;
+  }
+
+  /* Top fade — для nav */
+  .overlay-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 180px;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+      rgba(245, 239, 228, 0.5) 0%,
+      rgba(245, 239, 228, 0) 100%
+    );
+  }
+
+  /* 
+    Bottom fade — фейдиться у ЧОРНИЙ для плавного переходу в наступну темну секцію.
+    Він на нижніх 35% — НЕ торкається обличчя, яке у верхній/центральній зоні відео.
+  */
+  .overlay-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 35%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+      rgba(10, 10, 10, 0) 0%,
+      rgba(10, 10, 10, 0.4) 50%,
+      rgba(10, 10, 10, 0.85) 85%,
+      rgba(10, 10, 10, 1) 100%
+    );
+  }
+
+  /* HERO CONTENT
+     Раніше було center — заголовок падав на обличчя.
+     Тепер: justify-content: flex-end + padding-bottom клатимо весь блок ВНИЗ
+     над bottom-overlay. Так обличчя у верхній/центральній зоні вільне.
+  */
+  .hero-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    padding: 0 clamp(20px, 4vw, 60px) clamp(50px, 8vh, 90px);
+    gap: clamp(16px, 2.5vh, 26px);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(36px, 6.5vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    text-transform: uppercase;
+    text-shadow: 0 2px 30px rgba(10, 10, 10, 0.6);
+    white-space: nowrap;
+    opacity: 0;
+    animation: fadeInUp 1.2s 0.3s forwards cubic-bezier(0.2, 0.85, 0.2, 1);
+  }
+  .hero-title .accent { color: var(--orange); font-weight: 700; }
+  .hero-title .dot { display: inline-block; color: var(--orange); margin: 0 0.15em; transform: translateY(-0.15em); font-weight: 800; }
+
+  .hero-sub {
+    font-family: var(--font-mono);
+    font-size: clamp(11px, 1vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgba(217, 119, 87, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 9px 18px;
+    border-radius: 100px;
+    border: 1px solid rgba(217, 119, 87, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeInUp 1.2s 0.55s forwards cubic-bezier(0.2, 0.85, 0.2, 1);
+  }
+  .hero-sub::before { content: ''; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; }
+
+  .hero-desc {
+    font-family: var(--font-body);
+    font-size: clamp(14px, 1.2vw, 17px);
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(245, 239, 228, 0.9);
+    max-width: 560px;
+    text-shadow: 0 1px 12px rgba(10, 10, 10, 0.7);
+    opacity: 0;
+    animation: fadeInUp 1.2s 0.8s forwards cubic-bezier(0.2, 0.85, 0.2, 1);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+    opacity: 0;
+    animation: fadeInUp 1.2s 1.05s forwards cubic-bezier(0.2, 0.85, 0.2, 1);
+  }
+
+  .btn-primary {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 18px 32px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 12px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative; overflow: hidden;
+    box-shadow: 0 8px 30px rgba(10, 10, 10, 0.4);
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--orange);
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .btn-primary:hover { color: var(--paper); }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-primary svg { position: relative; z-index: 1; transition: transform 0.3s; }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  .btn-ghost {
+    color: var(--paper);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    border: 1px solid rgba(245, 239, 228, 0.3);
+    padding: 17px 24px;
+    border-radius: 100px;
+    transition: all 0.2s;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(10, 10, 10, 0.2);
+  }
+  .btn-ghost:hover { border-color: var(--paper); background: rgba(245, 239, 228, 0.08); }
+
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 700px) {
+    .hero-title { white-space: normal; font-size: clamp(32px, 10vw, 52px); }
+    .btn-primary, .btn-ghost { padding: 14px 22px; font-size: 11px; }
+  }
+
+  /* ===== SECTION 2: MANIFESTO — DARK
+     Прибрав оранжевий halo зверху. Залишив halo лише знизу
+     (далеко від місця стику з hero, не впливає на обличчя).
+  */
+  .manifesto {
+    position: relative;
+    z-index: 3;
+    padding: clamp(80px, 14vh, 160px) clamp(20px, 5vw, 60px);
+    background: var(--ink);
+    color: var(--paper);
+    overflow: hidden;
+    margin-top: -1px;
+  }
+  .manifesto::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 90% 110%, rgba(217, 119, 87, 0.18) 0%, transparent 45%),
+      radial-gradient(ellipse at 10% 95%, rgba(217, 119, 87, 0.1) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .manifesto-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ink-splatter { position: absolute; pointer-events: none; opacity: 0.4; }
+  .ink-splatter--tl { top: 40px; left: -20px; width: 220px; transform: rotate(-15deg); }
+  .ink-splatter--br { bottom: 60px; right: -20px; width: 280px; transform: rotate(160deg); opacity: 0.3; }
+  .ink-splatter g { fill: var(--paper); }
+
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 32px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--orange); }
+
+  .manifesto-text {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: 1100px;
+    color: var(--paper);
+  }
+  .manifesto-text em { font-style: normal; font-weight: 700; color: var(--orange); }
+  .manifesto-text .strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--orange);
+    text-decoration-thickness: 4px;
+    color: var(--ash-light); opacity: 0.55;
+  }
+
+  .manifesto-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    margin-top: clamp(60px, 10vh, 120px);
+    padding-top: 40px;
+    border-top: 1px solid rgba(245, 239, 228, 0.15);
+  }
+  .meta-item-num {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1;
+    color: var(--orange);
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+  }
+  .meta-item-label {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245, 239, 228, 0.7); line-height: 1.6;
+  }
+
+  /* ===== SECTION 3: PROGRAM — LIGHT ===== */
+  .inside {
+    position: relative;
+    z-index: 3;
+    padding: clamp(80px, 14vh, 160px) clamp(20px, 5vw, 60px);
+    background: var(--paper);
+    color: var(--ink);
+    overflow: hidden;
+    margin-top: -1px;
+  }
+  .inside::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 90% 10%, rgba(217, 119, 87, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(217, 119, 87, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .inside-inner { max-width: 1280px; margin: 0 auto; position: relative; }
+  .inside-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: clamp(50px, 8vh, 100px); }
+  @media (max-width: 800px) { .inside-header { grid-template-columns: 1fr; gap: 24px; } }
+
+  .section-eyebrow.on-light { color: var(--orange-deep); }
+  .section-eyebrow.on-light::before { background: var(--orange-deep); }
+
+  .inside-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(40px, 5.5vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+  .inside-title em { font-style: normal; color: var(--orange); font-weight: 700; }
+  .inside-blurb { font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; color: var(--ash); max-width: 460px; }
+
+  .modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: rgba(10, 10, 10, 0.1);
+    border: 1px solid rgba(10, 10, 10, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .module {
+    background: var(--paper);
+    padding: 36px 32px;
+    transition: background 0.3s;
+    cursor: pointer; position: relative;
+    min-height: 240px;
+    display: flex; flex-direction: column;
+  }
+  .module:hover { background: var(--paper-warm); }
+  .module:hover .module-arrow { transform: translate(4px, -4px); color: var(--orange); }
+  .module-num { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.25em; color: var(--orange-deep); margin-bottom: 22px; text-transform: uppercase; }
+  .module-name { font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.025em; }
+  .module-desc { font-size: 14px; line-height: 1.55; color: var(--ash); margin-top: auto; font-family: var(--font-body); }
+  .module-arrow { position: absolute; top: 32px; right: 32px; color: rgba(10, 10, 10, 0.3); transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-brand-mark"></div>
+    <span>Claude Hero</span>
+  </div>
+  <div class="nav-links">
+    <a href="#about">Шлях</a>
+    <a href="#program">Програма</a>
+    <a href="#cases">Кейси</a>
+    <a href="#author">Автор</a>
+  </div>
+  <a href="#cta" class="nav-cta">Записатися →</a>
+</nav>
+
+<section class="hero" id="hero">
+  <video class="hero-video" id="heroVideo" src="hero.mp4" muted playsinline autoplay loop preload="auto" webkit-playsinline></video>
+  <div class="overlay-top"></div>
+  <div class="overlay-bottom"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">Claude<span class="dot">·</span><span class="accent">Hero</span></h1>
+    <div class="hero-sub">Стань героєм ери AI</div>
+    <p class="hero-desc">
+      Курс для підприємців і креативників, які хочуть запускати проєкти, автоматизувати рутину та заробляти більше — без команди з десяти людей.
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">
+        <span>Стати героєм</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+      <a href="#program" class="btn-ghost">Програма курсу</a>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto" id="about">
+  <svg class="ink-splatter ink-splatter--tl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <path d="M40,80 Q60,40 100,50 T180,70 Q150,90 120,85 T70,100 Q50,95 40,80Z" opacity="0.85"/>
+      <circle cx="30" cy="120" r="4"/>
+      <circle cx="50" cy="140" r="2.5"/>
+      <circle cx="70" cy="155" r="3"/>
+      <circle cx="160" cy="100" r="2"/>
+      <circle cx="175" cy="115" r="3.5"/>
+      <path d="M20,160 Q30,150 45,158 T70,170" stroke="#f5efe4" stroke-width="3" fill="none"/>
+    </g>
+  </svg>
+  <svg class="ink-splatter ink-splatter--br" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <path d="M50,60 Q80,30 120,45 T180,80 Q160,110 130,100 T80,115 Q60,100 50,60Z" opacity="0.7"/>
+      <circle cx="40" cy="100" r="3"/>
+      <circle cx="60" cy="130" r="2"/>
+      <circle cx="80" cy="150" r="4"/>
+      <circle cx="170" cy="60" r="2.5"/>
+    </g>
+  </svg>
+
+  <div class="manifesto-inner">
+    <div class="section-eyebrow"><span>Маніфест</span></div>
+    <h2 class="manifesto-text">
+      Ера, коли проєкти на мільйони запускали <span class="strike">команди з тридцяти людей</span> — закінчилась.<br><br>
+      Тепер достатньо <em>одного воїна</em> і правильної зброї.
+    </h2>
+    <div class="manifesto-meta">
+      <div class="meta-item">
+        <div class="meta-item-num">1</div>
+        <div class="meta-item-label">Засновник.<br>Без команди.</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-item-num">∞</div>
+        <div class="meta-item-label">Агентів<br>на твоїй стороні</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-item-num">$10k+</div>
+        <div class="meta-item-label">На місяць<br>в соло — реально</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-item-num">2 год</div>
+        <div class="meta-item-label">На день<br>замість дванадцяти</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="inside" id="program">
+  <div class="inside-inner">
+    <div class="inside-header">
+      <div>
+        <div class="section-eyebrow on-light"><span>Сім дисциплін воїна</span></div>
+        <h2 class="inside-title">
+          Сім модулів.<br>
+          <em>Один шлях</em><br>
+          до соло-героя.
+        </h2>
+      </div>
+      <p class="inside-blurb">
+        Кожен модуль — окремий навик-зброя у твоєму арсеналі. Від розгортання Claude як другого мозку — до запуску повноцінного бізнесу, де ти робиш усе сам.
+      </p>
+    </div>
+
+    <div class="modules">
+      <article class="module">
+        <div class="module-num">01 / Foundation</div>
+        <h3 class="module-name">Філософія соло-героя</h3>
+        <p class="module-desc">Як думати з Claude як з командою. Промпт-інженерія на серйозному рівні. База знань як зброя.</p>
+        <svg class="module-arrow" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M5 17L17 5M17 5H8M17 5V14" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </article>
+      <article class="module">
+        <div class="module-num">02 / Build</div>
+        <h3 class="module-name">Сайти, додатки, платформи</h3>
+        <p class="module-desc">Claude Code, Figma → код, Vercel, Supabase. Як я запускаю платформу в соло замість команди з десяти людей.</p>
+        <svg class="module-arrow" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M5 17L17 5M17 5H8M17 5V14" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </article>
+      <article class="module">
+        <div class="module-num">03 / Automate</div>
+        <h3 class="module-name">Армія агентів</h3>
+        <p class="module-desc">MCP, Skills, Scheduled, Dispatch. Telegram-боти. Власна система оркестрації агентів під твої задачі.</p>
+        <svg class="module-arrow" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M5 17L17 5M17 5H8M17 5V14" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </article>
+      <article class="module">
+        <div class="module-num">04 / Market</div>
+        <h3 class="module-name">Маркетинг рівня корпорації</h3>
+        <p class="module-desc">Креативи в Higgsfield. Таргетинг через Claude. Аналіз конкурентів. Контент-машина.</p>
+        <svg class="module-arrow" width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M5 17L17 5M17 5H8M17 5V14" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
