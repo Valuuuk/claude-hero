@@ -6,7 +6,7 @@
 <title>CLAUDE HERO — Стань героєм ери AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Unbounded:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
@@ -384,6 +384,150 @@
   .module-name { font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.025em; }
   .module-desc { font-size: 14px; line-height: 1.55; color: var(--ash); margin-top: auto; font-family: var(--font-body); }
   .module-arrow { position: absolute; top: 32px; right: 32px; color: rgba(10, 10, 10, 0.3); transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+  /* ===== SIGNUP FORM (ранній список) ===== */
+  .form-section {
+    padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 60px) clamp(60px, 10vh, 120px);
+    background: linear-gradient(180deg, var(--ink) 0%, #15100c 100%);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .form-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(217, 119, 87, 0.18) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .form-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; text-align: center; }
+  .form-head { margin-bottom: clamp(32px, 5vh, 48px); }
+  .form-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    margin-bottom: 20px;
+    font-variation-settings: "opsz" 100, "SOFT" 50;
+  }
+  .form-title em { font-style: italic; color: var(--orange); font-weight: 500; }
+  .form-desc {
+    font-family: var(--font-body);
+    font-size: clamp(14px, 1.1vw, 16px);
+    color: rgba(245, 239, 228, 0.65);
+    line-height: 1.55;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  form#signupForm { text-align: left; display: grid; gap: clamp(28px, 4vh, 40px); }
+  .field {
+    background: rgba(245, 239, 228, 0.025);
+    border: 1px solid rgba(245, 239, 228, 0.07);
+    border-radius: 16px;
+    padding: clamp(20px, 3vh, 28px) clamp(20px, 3vw, 28px);
+    transition: border-color 0.2s;
+  }
+  .field:focus-within { border-color: rgba(217, 119, 87, 0.35); }
+  .field > label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.2vw, 17px);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    text-transform: none;
+    color: var(--paper);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .field .req { color: var(--orange); margin-left: 2px; }
+  .field input, .field textarea {
+    width: 100%;
+    background: rgba(245, 239, 228, 0.06);
+    border: 1px solid rgba(245, 239, 228, 0.14);
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: 16px;
+    transition: all 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+  .field input:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    background: rgba(245, 239, 228, 0.1);
+  }
+  .field input::placeholder, .field textarea::placeholder { color: rgba(245, 239, 228, 0.3); }
+  .radio-group { display: grid; gap: 10px; }
+  .radio-option {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    background: rgba(245, 239, 228, 0.05);
+    border: 1px solid rgba(245, 239, 228, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 15px;
+    line-height: 1.4;
+    color: rgba(245, 239, 228, 0.88);
+  }
+  .radio-option:hover { border-color: rgba(217, 119, 87, 0.4); background: rgba(245, 239, 228, 0.08); }
+  .radio-option input[type="radio"] {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border: 2px solid rgba(245, 239, 228, 0.3);
+    border-radius: 50%;
+    margin: 0; flex-shrink: 0;
+    position: relative; cursor: pointer;
+  }
+  .radio-option input[type="radio"]:checked { border-color: var(--orange); }
+  .radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute; inset: 3px;
+    background: var(--orange);
+    border-radius: 50%;
+  }
+  .radio-option:has(input:checked) { border-color: var(--orange); background: rgba(217, 119, 87, 0.1); }
+  .form-submit { margin-top: 16px; text-align: center; }
+  .form-submit .btn-primary { color: var(--ink); }
+  .form-submit .btn-primary:hover { color: var(--paper); }
+  .form-status {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    min-height: 20px;
+  }
+  .form-status.success { color: #6ec885; }
+  .form-status.error { color: #e87a5e; }
+  .success-card {
+    display: none;
+    background: rgba(110, 200, 133, 0.08);
+    border: 1px solid rgba(110, 200, 133, 0.4);
+    border-radius: 18px;
+    padding: 48px 32px;
+    text-align: center;
+  }
+  .success-card.show { display: block; }
+  .success-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--paper);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+  .success-card p {
+    font-family: var(--font-body);
+    color: rgba(245, 239, 228, 0.7);
+    font-size: 15px;
+    line-height: 1.55;
+  }
 </style>
 </head>
 <body>
@@ -399,7 +543,7 @@
     <a href="#cases">Кейси</a>
     <a href="#author">Автор</a>
   </div>
-  <a href="#cta" class="nav-cta">Записатися →</a>
+  <a href="#signup" class="nav-cta">Ранній список →</a>
 </nav>
 
 <section class="hero" id="hero">
@@ -414,8 +558,8 @@
       Курс для підприємців і креативників, які хочуть запускати проєкти, автоматизувати рутину та заробляти більше — без команди з десяти людей.
     </p>
     <div class="hero-actions">
-      <a href="#cta" class="btn-primary">
-        <span>Стати героєм</span>
+      <a href="#signup" class="btn-primary">
+        <span>Записатися в ранній список</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
         </svg>
@@ -526,6 +670,140 @@
     </div>
   </div>
 </section>
+
+<section class="form-section" id="signup">
+  <div class="form-inner">
+    <div class="form-head">
+      <div class="section-eyebrow">Ранній список</div>
+      <h2 class="form-title">Залиш заявку на <em>інтенсив</em></h2>
+      <p class="form-desc">
+        Заповни анкету — надішлю деталі і дату старту, як буде готове.
+      </p>
+    </div>
+
+    <form id="signupForm" novalidate>
+      <input type="hidden" name="source" value="main" />
+
+      <div class="field">
+        <label>Хто ви за родом діяльності? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="role" value="Фрілансер / креативник" required> Фрілансер / креативник (дизайнер, копірайтер, відеограф)</label>
+          <label class="radio-option"><input type="radio" name="role" value="Solo-консультант / коуч"> Solo-консультант або коуч</label>
+          <label class="radio-option"><input type="radio" name="role" value="Маркетолог / SMM / агенція"> Маркетолог / SMM / агенція</label>
+          <label class="radio-option"><input type="radio" name="role" value="Підприємець / власник бізнесу"> Підприємець / власник бізнесу</label>
+          <label class="radio-option"><input type="radio" name="role" value="Менеджер / продакт у компанії"> Менеджер / продакт у компанії</label>
+          <label class="radio-option"><input type="radio" name="role" value="Студент / навчаюсь"> Студент / навчаюсь</label>
+          <label class="radio-option"><input type="radio" name="role" value="Інше"> Інше</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>На якому рівні ви зараз з Claude? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="level" value="Не користувався взагалі" required> Не користувався взагалі</label>
+          <label class="radio-option"><input type="radio" name="level" value="Спробував, але не зрозумів"> Спробував, але не зрозумів як використовувати</label>
+          <label class="radio-option"><input type="radio" name="level" value="Регулярно для простих задач"> Користуюсь регулярно для простих задач (пишу тексти, ставлю питання)</label>
+          <label class="radio-option"><input type="radio" name="level" value="Активно, хочу глибше"> Активно використовую, хочу глибше (Skills, MCP, агенти)</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pain">Що для вас зараз — головна задача або біль, з якою хочете допомогу від Claude? <span class="req">*</span></label>
+        <textarea id="pain" name="pain" required placeholder="Напишіть своїми словами — 1-2 речення. Наприклад: «Не встигаю вести соцмережі», «Хочу запустити свій сервіс, але не знаю як без розробників»..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="result">Який результат від курсу був би для вас «вау, окупився»? <span class="req">*</span></label>
+        <textarea id="result" name="result" required placeholder="Що конкретно ви хотіли б отримати або зробити після курсу?"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Який бюджет ви готові виділити на навчання Claude цього місяця? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="budget" value="До €30" required> До €30 (шукаю безкоштовне або дуже дешеве)</label>
+          <label class="radio-option"><input type="radio" name="budget" value="€30–80"> €30–80 (готовий платити за якісне)</label>
+          <label class="radio-option"><input type="radio" name="budget" value="€80–150"> €80–150 (інвестую в розвиток, якщо тема релевантна)</label>
+          <label class="radio-option"><input type="radio" name="budget" value="€150+"> €150+ (готовий до глибокого навчання, без обмежень)</label>
+          <label class="radio-option"><input type="radio" name="budget" value="Поки не готовий платити"> Поки не готовий платити, придивляюсь</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Як швидко ви готові долучитись? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="timing" value="Записуюсь зараз" required> Готовий записатися зараз, як тільки відкриється продаж</label>
+          <label class="radio-option"><input type="radio" name="timing" value="Чекаю деталей"> Чекаю більше деталей перед рішенням</label>
+          <label class="radio-option"><input type="radio" name="timing" value="Не цього сезону"> Цікаво, але не цього сезону — слідкую</label>
+          <label class="radio-option"><input type="radio" name="timing" value="Збираю інформацію"> Просто збираю інформацію поки що</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="contact">Telegram-нік або email для звʼязку <span class="req">*</span></label>
+        <input type="text" id="contact" name="contact" required placeholder="Telegram-нік (наприклад @vitalii) або email" autocomplete="email" />
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span>Залишити заявку</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+        <div class="form-status" id="formStatus"></div>
+      </div>
+    </form>
+
+    <div class="success-card" id="successCard">
+      <h3>Дякую! Заявка прийнята ✦</h3>
+      <p>Надішлю деталі і дату старту, як буде готове. Слідкуй за поштою або Telegram.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const form = document.getElementById('signupForm');
+    const status = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    const successCard = document.getElementById('successCard');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'form-status';
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (!data.role || !data.level || !data.pain || !data.result || !data.budget || !data.timing || !data.contact) {
+        status.textContent = 'Заповни всі обовʼязкові поля';
+        status.className = 'form-status error';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.6';
+      status.textContent = 'Відправляю...';
+
+      try {
+        const res = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('Помилка серверу: ' + res.status);
+        form.style.display = 'none';
+        successCard.classList.add('show');
+        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        status.textContent = 'Не вдалось відправити. Спробуй ще раз або напиши мені у Telegram.';
+        status.className = 'form-status error';
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+      }
+    });
+  })();
+</script>
 
 <script>
   (function () {
