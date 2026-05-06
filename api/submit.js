@@ -28,7 +28,6 @@ async function sendTelegram({ token, chatId, text }) {
 }
 
 async function appendToGist({ token, gistId, filename, entry }) {
-  // 1. читаємо поточний вміст
   const getR = await fetch(`https://api.github.com/gists/${gistId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -43,7 +42,6 @@ async function appendToGist({ token, gistId, filename, entry }) {
 
   const newContent = current + entry;
 
-  // 2. дописуємо
   const patchR = await fetch(`https://api.github.com/gists/${gistId}`, {
     method: 'PATCH',
     headers: {
@@ -66,55 +64,64 @@ export default async function handler(req, res) {
   }
 
   const body = req.body || {};
-  const { name, email, telegram, role, level, goal, block } = body;
+  const {
+    role,
+    level,
+    pain,
+    result: expectedResult,
+    budget,
+    timing,
+    contact,
+    source,
+  } = body;
 
-  if (!name || !email || !role || !level || !goal) {
+  if (!role || !level || !pain || !expectedResult || !budget || !timing || !contact) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   const ts = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+  const src = source || 'intensive';
 
   // ---- Telegram (HTML) ----
   const tgLines = [
     '🎯 <b>Нова заявка на інтенсив</b>',
-    `<i>${ts}</i>`,
+    `<i>${ts}</i> · <code>${escapeHTML(src)}</code>`,
     '',
-    `<b>Імʼя:</b> ${escapeHTML(name)}`,
-    `<b>Email:</b> ${escapeHTML(email)}`,
+    `<b>Контакт:</b> ${escapeHTML(contact)}`,
+    `<b>Хто:</b> ${escapeHTML(role)}`,
+    `<b>Рівень з Claude:</b> ${escapeHTML(level)}`,
+    `<b>Бюджет:</b> ${escapeHTML(budget)}`,
+    `<b>Готовність:</b> ${escapeHTML(timing)}`,
+    '',
+    '<b>Біль / задача:</b>',
+    escapeHTML(pain),
+    '',
+    '<b>Результат-вау:</b>',
+    escapeHTML(expectedResult),
   ];
-  if (telegram) tgLines.push(`<b>Telegram:</b> ${escapeHTML(telegram)}`);
-  tgLines.push(`<b>Роль:</b> ${escapeHTML(role)}`);
-  tgLines.push(`<b>Рівень:</b> ${escapeHTML(level)}`);
-  tgLines.push('');
-  tgLines.push(`<b>Мета:</b> ${escapeHTML(goal)}`);
-  if (block) {
-    tgLines.push('');
-    tgLines.push(`<b>Блокери:</b> ${escapeHTML(block)}`);
-  }
   const tgText = tgLines.join('\n');
 
   // ---- Markdown (для Gist) ----
   const mdLines = [
-    `## ${ts} — ${name}`,
+    `## ${ts} — ${contact}`,
     '',
-    `- **Email:** ${email}`,
+    `- **Source:** \`${src}\``,
+    `- **Хто:** ${role}`,
+    `- **Рівень з Claude:** ${level}`,
+    `- **Бюджет:** ${budget}`,
+    `- **Готовність:** ${timing}`,
+    '',
+    '**Біль / задача:**',
+    '',
+    pain,
+    '',
+    '**Результат-вау:**',
+    '',
+    expectedResult,
+    '',
+    '---',
+    '',
   ];
-  if (telegram) mdLines.push(`- **Telegram:** ${telegram}`);
-  mdLines.push(`- **Роль:** ${role}`);
-  mdLines.push(`- **Рівень:** ${level}`);
-  mdLines.push('');
-  mdLines.push(`**Мета:**`);
-  mdLines.push('');
-  mdLines.push(goal);
-  if (block) {
-    mdLines.push('');
-    mdLines.push('**Блокери:**');
-    mdLines.push('');
-    mdLines.push(block);
-  }
-  mdLines.push('');
-  mdLines.push('---');
-  mdLines.push('');
   const mdEntry = mdLines.join('\n');
 
   // ---- Виконуємо обидві дії паралельно, не валимось якщо одна впала ----
@@ -147,8 +154,6 @@ export default async function handler(req, res) {
 
   const results = await Promise.all(tasks);
   const merged = Object.assign({}, ...results);
-
-  // Якщо обидва канали впали — повертаємо помилку. Якщо хоч один ок — користувачу ОК.
   const anyOk = Object.values(merged).some((v) => v === 'ok');
   if (!anyOk) {
     return res.status(502).json({ error: 'Delivery failed' });
