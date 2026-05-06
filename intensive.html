@@ -85,12 +85,11 @@
 
   /* ===== HERO (екран 1) — заголовок + відео ===== */
   .hero {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: clamp(120px, 16vh, 160px) clamp(20px, 5vw, 60px) clamp(60px, 10vh, 100px);
+    padding: clamp(110px, 14vh, 150px) clamp(20px, 5vw, 60px) clamp(28px, 4vh, 56px);
     background: radial-gradient(ellipse at 50% 0%, rgba(217, 119, 87, 0.18) 0%, transparent 55%),
                 radial-gradient(ellipse at 50% 100%, rgba(217, 119, 87, 0.1) 0%, transparent 50%);
     position: relative;
@@ -153,7 +152,7 @@
 
   /* ===== FORM (екран 2) ===== */
   .form-section {
-    padding: clamp(80px, 14vh, 160px) clamp(20px, 5vw, 60px);
+    padding: clamp(40px, 6vh, 80px) clamp(20px, 5vw, 60px) clamp(60px, 10vh, 120px);
     background: linear-gradient(180deg, var(--ink) 0%, #15100c 100%);
     position: relative;
     overflow: hidden;
@@ -171,7 +170,7 @@
     z-index: 1;
     text-align: center;
   }
-  .form-head { margin-bottom: 56px; }
+  .form-head { margin-bottom: clamp(32px, 5vh, 48px); }
 
   .section-eyebrow {
     font-family: var(--font-mono);
@@ -207,54 +206,79 @@
     margin: 0 auto;
   }
 
-  form { text-align: left; display: grid; gap: 22px; }
+  form { text-align: left; display: grid; gap: clamp(28px, 4vh, 40px); }
 
-  .field label {
+  /* Кожне питання — окрема "картка" з фоном і відступом, щоб не зливались */
+  .field {
+    background: rgba(245, 239, 228, 0.025);
+    border: 1px solid rgba(245, 239, 228, 0.07);
+    border-radius: 16px;
+    padding: clamp(20px, 3vh, 28px) clamp(20px, 3vw, 28px);
+    transition: border-color 0.2s;
+  }
+  .field:focus-within { border-color: rgba(217, 119, 87, 0.35); }
+
+  .field > label,
+  .field > .field-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.2vw, 17px);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    text-transform: none;
+    color: var(--paper);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .field .req { color: var(--orange); margin-left: 2px; }
+  .field-hint {
     display: block;
     font-family: var(--font-mono);
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: rgba(245, 239, 228, 0.7);
-    margin-bottom: 10px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(217, 119, 87, 0.85);
+    margin-bottom: 12px;
   }
-  .field label .req { color: var(--orange); }
   .field input,
   .field textarea,
   .field select {
     width: 100%;
-    background: rgba(245, 239, 228, 0.05);
-    border: 1px solid rgba(245, 239, 228, 0.12);
+    background: rgba(245, 239, 228, 0.06);
+    border: 1px solid rgba(245, 239, 228, 0.14);
     border-radius: 12px;
     padding: 16px 18px;
     color: var(--paper);
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 16px;
     transition: all 0.2s;
     -webkit-appearance: none;
     appearance: none;
   }
-  .field textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+  .field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
   .field input:focus,
   .field textarea:focus,
   .field select:focus {
     outline: none;
     border-color: var(--orange);
-    background: rgba(245, 239, 228, 0.08);
+    background: rgba(245, 239, 228, 0.1);
   }
   .field input::placeholder,
   .field textarea::placeholder { color: rgba(245, 239, 228, 0.3); }
 
-  .radio-group { display: grid; gap: 8px; }
+  .radio-group { display: grid; gap: 10px; }
   .radio-option {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 18px;
-    background: rgba(245, 239, 228, 0.04);
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    background: rgba(245, 239, 228, 0.05);
     border: 1px solid rgba(245, 239, 228, 0.1);
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 14px;
-    color: rgba(245, 239, 228, 0.85);
+    font-size: 15px;
+    line-height: 1.4;
+    color: rgba(245, 239, 228, 0.88);
   }
   .radio-option:hover {
     border-color: rgba(217, 119, 87, 0.4);
@@ -399,7 +423,7 @@
       <div class="section-eyebrow">Передзапис</div>
       <h2 class="form-title">Залиш заявку на <em>інтенсив</em></h2>
       <p class="form-desc">
-        Заповни анкету — я зв'яжусь особисто, як буде дата старту і деталі.
+        Заповни анкету — надішлю деталі і дату старту, як буде готове.
       </p>
     </div>
 
@@ -476,7 +500,7 @@
 
     <div class="success-card" id="successCard">
       <h3>Дякую! Заявка прийнята ✦</h3>
-      <p>Я особисто напишу тобі, як буде дата старту і деталі програми. Очікуй у пошті або Telegram.</p>
+      <p>Надішлю деталі і дату старту, як буде готове. Слідкуй за поштою або Telegram.</p>
     </div>
   </div>
 </section>
