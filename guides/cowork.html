@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Claude Cowork — кілька агентів одночасно | Claude Hero</title>
+<meta name="description" content="Cowork — це формат, де у тебе декілька паралельних сесій Claude, які виконують різні задачі. Як організувати робочий день навколо цього." />
+<link rel="canonical" href="https://claude-hero.vercel.app/guides/cowork" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Claude Cowork — кілька агентів одночасно" />
+<meta property="og:description" content="Як працювати з кількома Claude паралельно і не загубитися." />
+<meta property="og:url" content="https://claude-hero.vercel.app/guides/cowork" />
+<meta property="og:locale" content="uk_UA" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Claude Cowork — кілька агентів одночасно","author":{"@type":"Person","name":"Vitalii Valkov"},"publisher":{"@type":"Organization","name":"Claude Hero"},"inLanguage":"uk","url":"https://claude-hero.vercel.app/guides/cowork"}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/article.css">
+</head>
+<body>
+
+<div class="early-banner">
+  <span>Передзапис на інтенсив «Опануй Claude»</span>
+  <span class="dot">·</span>
+  <a href="/intensive#signup">Залишити заявку →</a>
+</div>
+
+<nav class="main-nav">
+  <a href="/" class="nav-brand">
+    <span class="nav-brand-mark"></span>
+    <span>Claude·Hero</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Головна</a>
+    <a href="/guides" class="active">Гайди</a>
+    <a href="/intensive">Інтенсив</a>
+  </div>
+  <a href="/intensive#signup" class="nav-cta">Ранній список →</a>
+</nav>
+
+<header class="article-header">
+  <a href="/guides" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M9 1L3 7L9 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    До гайдів
+  </a>
+  <div class="article-meta">
+    <span class="article-tag">Cowork</span>
+    <span>8 хв читання</span>
+    <span>·</span>
+    <time datetime="2026-05-08">8 травня 2026</time>
+  </div>
+  <h1 class="article-title"><em>Claude Cowork</em>: як працювати з кількома агентами одночасно</h1>
+  <p class="article-lead">
+    Один Claude — це асистент. Кілька Claude паралельно — це команда. Cowork — про те, як перевести роботу з AI на цей рівень.
+  </p>
+</header>
+
+<article class="article-body">
+
+<h2>Що таке Cowork</h2>
+
+<p>
+  Cowork — це режим у Claude, де ти запускаєш кілька паралельних "сесій" (агентів), які працюють незалежно одна від одної над різними задачами. Ти даєш кожному завдання, і всі вони виконуються одночасно у фоні.
+</p>
+
+<p>
+  Уяви: один агент пише чернетку статті, другий збирає аналітику з твоїх продажів, третій розбирає вхідну пошту і готує відповіді — все паралельно.
+</p>
+
+<h2>Чим це відрізняється від звичайного чату</h2>
+
+<ul>
+  <li><strong>Звичайний чат</strong> — один Claude, один контекст, лінійна розмова.</li>
+  <li><strong>Cowork</strong> — багато Claude, у кожного свій контекст і своя задача, всі асинхронно.</li>
+</ul>
+
+<div class="callout">
+  <strong>Метафора:</strong> звичайний Claude — це коли ти диктуєш листи секретарю по черзі. Cowork — це коли в тебе є відділ із п'яти людей, і ти просто роздаєш задачі.
+</div>
+
+<h2>Коли Cowork реально потрібен</h2>
+
+<ul>
+  <li>Коли тобі треба <strong>паралельно</strong> зробити багато незалежних речей (написати, проаналізувати, спланувати).</li>
+  <li>Коли задача велика і її можна <strong>розбити на куски</strong>, які не залежать одна від одної.</li>
+  <li>Коли ти хочеш отримати <strong>декілька варіантів</strong> однієї відповіді одночасно і вибрати найкращий.</li>
+</ul>
+
+<p>
+  Якщо твоя задача проста і лінійна — Cowork не потрібен. Це інструмент для масштабу, не для одного питання.
+</p>
+
+<h2>Як це виглядає на практиці</h2>
+
+<p>
+  У Cowork-інтерфейсі ти створюєш окремі "доріжки" — кожна зі своєю задачею. Можеш призначити кожній доріжці свого агента (наприклад, з різними скілами):
+</p>
+
+<ul>
+  <li>Доріжка 1: <em>"Дизайнер"</em> — генерує варіанти лендингу</li>
+  <li>Доріжка 2: <em>"Аналітик"</em> — рахує метрики кампанії за минулий місяць</li>
+  <li>Доріжка 3: <em>"Копірайтер"</em> — пише пости в соцмережі</li>
+</ul>
+
+<p>
+  Запускаєш усі три — і йдеш робити каву. Через 10-15 хвилин маєш готові результати.
+</p>
+
+<h2>Підводні камені</h2>
+
+<ul>
+  <li><strong>Лімити токенів</strong> — паралельні агенти спалюють їх у рази швидше. Без Max-плану швидко впрешся.</li>
+  <li><strong>Координація</strong> — якщо задачі залежні (одна потребує результату іншої), Cowork не допоможе. Йди класичним чатом.</li>
+  <li><strong>Складність контролю</strong> — складніше слідкувати за тим, що робить кожен агент. Потрібна дисципліна в постановці задач.</li>
+</ul>
+
+<h2>Що далі</h2>
+
+<ul>
+  <li><a href="/guides/skills">Skills</a> — щоб кожен агент у Cowork був спеціалістом у своєму</li>
+  <li><a href="/guides/mcp">MCP-конектори</a> — щоб агенти мали доступ до твоїх інструментів</li>
+</ul>
+
+</article>
+
+<aside class="article-footer-cta">
+  <div class="inner">
+    <div class="eyebrow">Передзапис</div>
+    <h3>Створи свою <em>команду агентів</em></h3>
+    <p>На інтенсиві ми будуємо твій персональний Cowork — три-п'ять агентів, які реально працюють у твоєму ремеслі. Залишай заявку.</p>
+    <a href="/intensive#signup" class="btn-cta">
+      <span>Записатися в ранній список</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </a>
+  </div>
+</aside>
+
+<footer>
+  Claude·Hero · <a href="/">Головна</a> · <a href="/intensive">Інтенсив</a> · <a href="/guides">Гайди</a>
+</footer>
+
+</body>
+</html>

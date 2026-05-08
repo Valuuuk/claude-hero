@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>MCP-конектори у Claude — як підключити Gmail, Notion, Telegram | Claude Hero</title>
+<meta name="description" content="MCP — це новий стандарт під'єднання Claude до твоїх інструментів. Чим відрізняється від плагінів і як налаштувати конектори за 5 хвилин." />
+<link rel="canonical" href="https://claude-hero.vercel.app/guides/mcp" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="MCP-конектори: як підключити Gmail, Notion, Telegram до Claude" />
+<meta property="og:description" content="Що таке MCP, чим відрізняється від плагінів і як підключити свої інструменти." />
+<meta property="og:url" content="https://claude-hero.vercel.app/guides/mcp" />
+<meta property="og:locale" content="uk_UA" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"MCP-конектори у Claude","author":{"@type":"Person","name":"Vitalii Valkov"},"publisher":{"@type":"Organization","name":"Claude Hero"},"inLanguage":"uk","url":"https://claude-hero.vercel.app/guides/mcp"}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/article.css">
+</head>
+<body>
+
+<div class="early-banner">
+  <span>Передзапис на інтенсив «Опануй Claude»</span>
+  <span class="dot">·</span>
+  <a href="/intensive#signup">Залишити заявку →</a>
+</div>
+
+<nav class="main-nav">
+  <a href="/" class="nav-brand">
+    <span class="nav-brand-mark"></span>
+    <span>Claude·Hero</span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Головна</a>
+    <a href="/guides" class="active">Гайди</a>
+    <a href="/intensive">Інтенсив</a>
+  </div>
+  <a href="/intensive#signup" class="nav-cta">Ранній список →</a>
+</nav>
+
+<header class="article-header">
+  <a href="/guides" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M9 1L3 7L9 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    До гайдів
+  </a>
+  <div class="article-meta">
+    <span class="article-tag">Конектори</span>
+    <span>6 хв читання</span>
+    <span>·</span>
+    <time datetime="2026-05-08">8 травня 2026</time>
+  </div>
+  <h1 class="article-title"><em>MCP</em>-конектори: різниця з плагінами і як підключити Gmail, Notion, Telegram</h1>
+  <p class="article-lead">
+    MCP — це не "плагіни 2.0". Це принципово інша архітектура. Розбираю, чому вона змінює гру і як її використати.
+  </p>
+</header>
+
+<article class="article-body">
+
+<h2>Що таке MCP</h2>
+
+<p>
+  <strong>MCP</strong> — Model Context Protocol. Це стандарт, через який Claude (і не тільки Claude — ChatGPT, Gemini теж його підтримують) спілкується із зовнішніми інструментами: твоєю поштою, календарем, базою знань, Telegram, Linear, Figma, чим завгодно.
+</p>
+
+<p>
+  Простіше: MCP — як <em>USB</em>. Раніше кожен пристрій мав свій кабель. Тепер усі говорять однією мовою.
+</p>
+
+<h2>Чим це відрізняється від плагінів</h2>
+
+<ul>
+  <li><strong>Плагіни</strong> жили всередині самого Claude. Кожен сервіс мав сам зробити свій плагін під Anthropic. Це повільно і обмежено.</li>
+  <li><strong>MCP-сервери</strong> — це окремі програми, які може запустити будь-хто. Вони відкриті, є тисячі готових, і ти можеш написати свій за вечір.</li>
+</ul>
+
+<div class="callout">
+  <strong>Висновок:</strong> якщо плагіни — це "магазин додатків Apple", то MCP — це Linux. Більше свободи, більше можливостей, трохи більше зусиль на старті.
+</div>
+
+<h2>Готові офіційні конектори</h2>
+
+<p>
+  В інтерфейсі Claude (Pro+) у налаштуваннях є вкладка <strong>Connectors</strong>. Там одним кліком підключаються:
+</p>
+
+<ul>
+  <li><strong>Gmail</strong> — читання і відправка пошти</li>
+  <li><strong>Google Calendar</strong> — створення подій, перевірка вільних слотів</li>
+  <li><strong>Google Drive</strong> — пошук і редагування документів</li>
+  <li><strong>Notion</strong> — пошук, створення сторінок, оновлення баз даних</li>
+  <li><strong>Linear</strong> — створення issue, керування проєктами</li>
+</ul>
+
+<h2>Сторонні MCP — Telegram, Slack, банки</h2>
+
+<p>
+  Готові open-source MCP-сервери є для майже всього. Декілька, які я ставив сам:
+</p>
+
+<ul>
+  <li><strong>Telegram MCP</strong> — Claude читає твої чати, шукає, відправляє повідомлення</li>
+  <li><strong>iMessage MCP</strong> — те саме для Apple-повідомлень (тільки macOS)</li>
+  <li><strong>TickTick MCP</strong> — таски і списки</li>
+  <li><strong>Apple Notes MCP</strong> — читання і запис у Нотатки</li>
+  <li><strong>Computer Use MCP</strong> — Claude керує мишею і клавіатурою на твоєму компі</li>
+</ul>
+
+<h2>Як підключити перший MCP — за 3 хвилини</h2>
+
+<ol>
+  <li>Відкрий Claude Desktop → Settings → Connectors</li>
+  <li>Знайди потрібний сервіс у списку, натисни "Connect"</li>
+  <li>Авторизуйся в браузері (OAuth)</li>
+  <li>Готово — у новому чаті Claude бачить твою пошту/календар/Notion</li>
+</ol>
+
+<p>
+  Перевір, попросивши: <em>"Що в мене заплановано на завтра?"</em> або <em>"Знайди мою останню переписку з [ім'я]"</em>.
+</p>
+
+<h2>Що далі</h2>
+
+<ul>
+  <li><a href="/guides/cowork">Cowork</a> — Claude з кількома MCP в режимі "паралельні агенти"</li>
+  <li><a href="/guides/skills">Skills</a> — як скіли і MCP працюють разом</li>
+</ul>
+
+</article>
+
+<aside class="article-footer-cta">
+  <div class="inner">
+    <div class="eyebrow">Передзапис</div>
+    <h3>Підключи Claude до <em>усієї своєї роботи</em></h3>
+    <p>На інтенсиві проходимо по всіх ключових MCP-конекторах і налаштовуємо твій робочий стек. Залишай заявку.</p>
+    <a href="/intensive#signup" class="btn-cta">
+      <span>Записатися в ранній список</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </a>
+  </div>
+</aside>
+
+<footer>
+  Claude·Hero · <a href="/">Головна</a> · <a href="/intensive">Інтенсив</a> · <a href="/guides">Гайди</a>
+</footer>
+
+</body>
+</html>
