@@ -84,7 +84,7 @@ export default async function handler(req, res) {
 
   // ---- Telegram (HTML) ----
   const tgLines = [
-    '🎯 <b>Нова заявка на інтенсив</b>',
+    '🎯 <b>Нова заявка на курс</b>',
     `<i>${ts}</i> · <code>${escapeHTML(src)}</code>`,
     '',
     `<b>Контакт:</b> ${escapeHTML(contact)}`,
