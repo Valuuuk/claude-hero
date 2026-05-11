@@ -72,10 +72,11 @@ export default async function handler(req, res) {
     budget,
     timing,
     contact,
+    phone,
     source,
   } = body;
 
-  if (!role || !level || !pain || !expectedResult || !budget || !timing || !contact) {
+  if (!role || !level || !pain || !expectedResult || !budget || !timing || !contact || !phone) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -88,6 +89,7 @@ export default async function handler(req, res) {
     `<i>${ts}</i> · <code>${escapeHTML(src)}</code>`,
     '',
     `<b>Контакт:</b> ${escapeHTML(contact)}`,
+    `<b>Телефон:</b> ${escapeHTML(phone)}`,
     `<b>Хто:</b> ${escapeHTML(role)}`,
     `<b>Рівень з Claude:</b> ${escapeHTML(level)}`,
     `<b>Бюджет:</b> ${escapeHTML(budget)}`,
@@ -106,6 +108,7 @@ export default async function handler(req, res) {
     `## ${ts} — ${contact}`,
     '',
     `- **Source:** \`${src}\``,
+    `- **Телефон:** ${phone}`,
     `- **Хто:** ${role}`,
     `- **Рівень з Claude:** ${level}`,
     `- **Бюджет:** ${budget}`,

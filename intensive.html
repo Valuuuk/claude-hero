@@ -471,6 +471,11 @@
         <input type="text" id="contact" name="contact" required placeholder="Telegram-нік (наприклад @vitalii) або email" autocomplete="email" />
       </div>
 
+      <div class="field">
+        <label for="phone">Номер телефону для SMS <span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" required placeholder="+380 XX XXX XX XX" autocomplete="tel" inputmode="tel" />
+      </div>
+
       <div class="form-submit">
         <button type="submit" class="btn-primary" id="submitBtn">
           <span>Залишити заявку</span>
@@ -508,7 +513,7 @@
       status.className = 'form-status';
 
       const data = Object.fromEntries(new FormData(form).entries());
-      if (!data.role || !data.level || !data.pain || !data.result || !data.budget || !data.timing || !data.contact) {
+      if (!data.role || !data.level || !data.pain || !data.result || !data.budget || !data.timing || !data.contact || !data.phone) {
         status.textContent = 'Заповни всі обовʼязкові поля';
         status.className = 'form-status error';
         return;
