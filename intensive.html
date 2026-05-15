@@ -372,6 +372,151 @@
   @media (max-width: 700px) {
     .btn-primary { padding: 14px 22px; font-size: 11px; }
   }
+
+  /* ===== TARIFFS ===== */
+  .tariffs-section {
+    padding: clamp(60px, 10vh, 120px) clamp(20px, 5vw, 60px);
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .tariffs-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(217, 119, 87, 0.14) 0%, transparent 45%),
+      radial-gradient(ellipse at 100% 100%, rgba(217, 119, 87, 0.1) 0%, transparent 45%);
+    pointer-events: none;
+  }
+  .tariffs-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .tariffs-head { text-align: center; margin-bottom: clamp(48px, 7vh, 80px); }
+  .tariffs-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(36px, 5.5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    margin-bottom: 18px;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+  }
+  .tariffs-title em { font-style: italic; color: var(--orange); font-weight: 500; }
+  .tariffs-sub {
+    font-family: var(--font-body);
+    font-size: clamp(14px, 1.1vw, 17px);
+    color: rgba(245, 239, 228, 0.65);
+    line-height: 1.55;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .tariffs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+  }
+  .tariff-card {
+    background: rgba(245, 239, 228, 0.04);
+    border: 1px solid rgba(245, 239, 228, 0.12);
+    border-radius: 20px;
+    padding: 36px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+  }
+  .tariff-card:hover {
+    border-color: rgba(217, 119, 87, 0.5);
+    background: rgba(245, 239, 228, 0.06);
+    transform: translateY(-4px);
+  }
+  .tariff-card.featured {
+    background: linear-gradient(180deg, rgba(217, 119, 87, 0.14) 0%, rgba(217, 119, 87, 0.05) 100%);
+    border-color: rgba(217, 119, 87, 0.5);
+    box-shadow: 0 20px 60px rgba(217, 119, 87, 0.12);
+  }
+  .tariff-badge {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .tariff-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .tariff-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 3.2vw, 38px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--paper);
+    font-style: italic;
+  }
+  .tariff-price {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(20px, 2vw, 24px);
+    color: rgba(245, 239, 228, 0.78);
+    letter-spacing: -0.01em;
+  }
+  .tariff-desc {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: rgba(245, 239, 228, 0.6);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+  .tariff-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 14px 22px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tariff-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--orange);
+    transform: translateX(-101%);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .tariff-cta:hover { color: var(--paper); }
+  .tariff-cta:hover::before { transform: translateX(0); }
+  .tariff-cta span { position: relative; z-index: 1; }
+  .tariff-cta svg { position: relative; z-index: 1; transition: transform 0.3s; }
+  .tariff-cta:hover svg { transform: translateX(4px); }
+  .tariff-card.featured .tariff-cta { background: var(--orange); color: var(--paper); }
+  .tariff-card.featured .tariff-cta::before { background: var(--paper); }
+  .tariff-card.featured .tariff-cta:hover { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -385,7 +530,7 @@
     <a href="/" style="color: var(--paper); text-decoration: none; opacity: 0.65;">Головна</a>
     <a href="/guides" style="color: var(--paper); text-decoration: none; opacity: 0.65;">Гайди</a>
   </div>
-  <a href="#signup" class="nav-cta">Записатися →</a>
+  <a href="#tarify" class="nav-cta">Обрати тариф →</a>
 </nav>
 
 <section class="hero">
@@ -401,10 +546,59 @@
   </div>
 </section>
 
+<section class="tariffs-section" id="tarify">
+  <div class="tariffs-inner">
+    <div class="tariffs-head">
+      <div class="section-eyebrow"><span>Тарифи</span></div>
+      <h2 class="tariffs-title">Обирай свій <em>шлях</em></h2>
+      <p class="tariffs-sub">Три рівні занурення в Claude. Натисни — і відкриється чат, де я особисто проведу тебе до старту.</p>
+    </div>
+
+    <div class="tariffs-grid">
+      <!-- РОНІН -->
+      <article class="tariff-card">
+        <div class="tariff-eyebrow">Рівень 1</div>
+        <h3 class="tariff-name">Ронін</h3>
+        <div class="tariff-price">— ₴ —</div>
+        <p class="tariff-desc">Базовий пакет. Старт у Claude без втрат часу і помилок новачка.</p>
+        <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/gqyn9p?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=ronin" target="_blank" rel="noopener">
+          <span>Обрати Роніна</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+      </article>
+
+      <!-- САМУРАЙ (featured) -->
+      <article class="tariff-card featured">
+        <div class="tariff-badge">Найпопулярніший</div>
+        <div class="tariff-eyebrow">Рівень 2</div>
+        <h3 class="tariff-name">Самурай</h3>
+        <div class="tariff-price">— ₴ —</div>
+        <p class="tariff-desc">Оптимальний пакет. Усе, що треба для впевненої роботи з Claude у твоєму ремеслі.</p>
+        <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/bm92li?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=samurai" target="_blank" rel="noopener">
+          <span>Обрати Самурая</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+      </article>
+
+      <!-- МАЙСТЕР -->
+      <article class="tariff-card">
+        <div class="tariff-eyebrow">Рівень 3</div>
+        <h3 class="tariff-name">Майстер</h3>
+        <div class="tariff-price">— ₴ —</div>
+        <p class="tariff-desc">Преміум-занурення. Особиста увага, глибина і свій робочий стек агентів і скілів.</p>
+        <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/qq34q7?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=master" target="_blank" rel="noopener">
+          <span>Обрати Майстра</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="form-section" id="signup">
   <div class="form-inner">
     <div class="form-head">
-      <div class="section-eyebrow">Передзапис</div>
+      <div class="section-eyebrow">Ще не готовий обирати?</div>
       <h2 class="form-title">Залиш заявку на <em>курс</em></h2>
       <p class="form-desc">
         Заповни анкету — надішлю деталі і дату старту, як буде готове.
