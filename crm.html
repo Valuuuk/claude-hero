@@ -116,6 +116,7 @@
   .tags { display: flex; gap: 5px; flex-wrap: wrap; margin: 7px 0; }
   .tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); }
   .tag.src { background: #efe7d6; color: var(--orange-deep); font-family: var(--font-mono); }
+  .tag.paid { background: var(--green); color: #fff; border-color: var(--green); font-weight: 600; }
   .sections { font-size: 12.5px; color: var(--ink-soft); cursor: pointer; }
   .sections .sec { margin-top: 4px; display: flex; gap: 6px; }
   .sections .sec b { color: var(--ink); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; flex-shrink: 0; padding-top: 1px; }
@@ -170,7 +171,10 @@
       <h1>Заявки на курс</h1>
       <div class="meta" id="meta">—</div>
     </div>
-    <button class="refresh" id="refreshBtn">↻ Оновити</button>
+    <div style="display:flex;gap:8px;">
+      <button class="refresh" id="syncBtn">💳 Синхр. оплати</button>
+      <button class="refresh" id="refreshBtn">↻ Оновити</button>
+    </div>
   </header>
 
   <div class="stats" id="stats"></div>
@@ -338,6 +342,7 @@ function cardHTML(l) {
       </div>
     </div>
     <div class="tags">
+      ${l.status?.saleStatus === 'bought' && l.status?.paidTariff ? `<span class="tag paid">✅ ${esc(l.status.paidTariff)}</span>` : ''}
       ${fieldTag('Джерело', f.Source).replace('class="tag"', 'class="tag src"')}
       ${fieldTag('Хто', f['Хто'])}
       ${fieldTag('Рівень', f['Рівень з Claude'])}
@@ -452,6 +457,22 @@ document.querySelectorAll('.tab').forEach((t) => {
 document.getElementById('refreshBtn').addEventListener('click', () => {
   document.getElementById('list').innerHTML = '<div class="loading">Оновлення…</div>';
   load();
+});
+document.getElementById('syncBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('syncBtn');
+  const old = btn.textContent;
+  btn.textContent = '⏳ Синхронізую…';
+  btn.disabled = true;
+  try {
+    const r = await api('/api/sync-payments', { method: 'POST', body: '{}' });
+    alert(`Оплат у таблиці: ${r.payers}\nЗіставлено із заявками: ${r.matchedCount}\nНе знайдено заявки: ${r.unmatchedCount}`);
+    await load();
+  } catch (ex) {
+    alert('Помилка синхронізації: ' + ex.message);
+  } finally {
+    btn.textContent = old;
+    btn.disabled = false;
+  }
 });
 
 // Авто-вхід якщо пароль уже збережено.
