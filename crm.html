@@ -86,27 +86,30 @@
   }
 
   /* card */
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; margin-bottom: 8px; }
   .card.is-bought { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
-  .card.is-rejected { opacity: .62; }
-  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .card-head .who { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
-  .card-head .ts { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
-  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 12px; }
-  .tag { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); }
+  .card.is-rejected { opacity: .6; }
+  .card.is-deleted { opacity: .5; background: #f0ebe0; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .card-head .who { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+  .card-head .right { display: flex; align-items: baseline; gap: 10px; }
+  .card-head .ts { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); white-space: nowrap; }
+  .card-head .phone { font-size: 12px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .card-head .phone:hover { text-decoration: underline; }
+  .tags { display: flex; gap: 5px; flex-wrap: wrap; margin: 7px 0; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); }
   .tag.src { background: #efe7d6; color: var(--orange-deep); font-family: var(--font-mono); }
-  .quick { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; font-size: 13px; }
-  .quick a { font-weight: 600; text-decoration: none; }
-  .quick a:hover { text-decoration: underline; }
-  .sections { font-size: 14px; color: var(--ink-soft); }
-  .sections .sec { margin-top: 8px; }
-  .sections .sec b { color: var(--ink); font-weight: 600; display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 2px; }
+  .sections { font-size: 12.5px; color: var(--ink-soft); cursor: pointer; }
+  .sections .sec { margin-top: 4px; display: flex; gap: 6px; }
+  .sections .sec b { color: var(--ink); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; flex-shrink: 0; padding-top: 1px; }
+  .sections .sec .body { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+  .card.expanded .sections .sec .body { -webkit-line-clamp: unset; }
 
-  .actions { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); align-items: flex-start; }
-  .actions .group { display: flex; flex-direction: column; gap: 6px; }
-  .actions .group > span { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
-  .pill-row { display: flex; gap: 6px; }
-  .pill { border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; font-family: var(--font-body); font-weight: 500; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--line); align-items: center; }
+  .actions .group { display: flex; align-items: center; gap: 6px; }
+  .actions .group > span { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+  .pill-row { display: flex; gap: 5px; }
+  .pill { border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 4px 10px; font-size: 12px; cursor: pointer; font-family: var(--font-body); font-weight: 500; }
   .pill:hover { border-color: var(--ink-soft); }
   .pill.active { color: #fff; border-color: transparent; }
   .pill.active.c-reached { background: var(--blue); }
@@ -115,14 +118,16 @@
   .pill.active.s-bought { background: var(--green); }
   .pill.active.s-rejected { background: var(--red); }
   .pill.active.s-none { background: var(--ink-soft); }
-  .comment-wrap { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
-  .comment-wrap span { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+  .del-btn { margin-left: auto; border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 12px; font-family: var(--font-body); padding: 4px 8px; border-radius: 8px; }
+  .del-btn:hover { background: #f3d9d2; color: var(--red); }
+  .comment-wrap { flex: 1 0 100%; display: flex; flex-direction: column; gap: 4px; margin-top: 2px; }
+  .comment-wrap span { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
   .comment-wrap textarea {
-    border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 11px; font-family: var(--font-body);
-    font-size: 14px; resize: vertical; min-height: 42px; background: var(--paper);
+    border: 1.5px solid var(--line); border-radius: 9px; padding: 7px 10px; font-family: var(--font-body);
+    font-size: 13px; resize: vertical; min-height: 34px; background: var(--paper);
   }
   .comment-wrap textarea:focus { outline: none; border-color: var(--orange); }
-  .saved { font-size: 11px; color: var(--green); opacity: 0; transition: opacity .2s; }
+  .saved { font-size: 10px; color: var(--green); opacity: 0; transition: opacity .2s; }
   .saved.show { opacity: 1; }
 
   .empty { text-align: center; color: var(--ink-soft); padding: 60px 20px; font-size: 15px; }
@@ -167,6 +172,11 @@
       <option value="none">Без статусу</option>
     </select>
     <select id="fSource"><option value="">Source: всі</option></select>
+    <select id="fState">
+      <option value="active">Активні</option>
+      <option value="deleted">Видалені</option>
+      <option value="all">Всі</option>
+    </select>
   </div>
 
   <div id="list"><div class="loading">Завантаження…</div></div>
@@ -213,6 +223,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// "2026-05-19 12:10:53 UTC" → "19 травня 2026, 12:10" (за київським часом)
+function fmtDate(ts) {
+  const d = new Date(ts.replace(' UTC', 'Z').replace(' ', 'T'));
+  if (isNaN(d)) return ts;
+  const date = d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Kyiv' }).replace(/\s*р\.$/, '');
+  const time = d.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Kyiv' });
+  return `${date}, ${time}`;
+}
+
 function contactLink(contact) {
   const c = contact.trim();
   if (c.startsWith('@')) return `<a href="https://t.me/${esc(c.slice(1))}" target="_blank">${esc(c)} ↗</a>`;
@@ -222,10 +241,11 @@ function contactLink(contact) {
 
 function renderStats() {
   const todayUTC = new Date().toISOString().slice(0, 10);
-  const total = LEADS.length;
-  const today = LEADS.filter((l) => l.ts.slice(0, 10) === todayUTC).length;
-  const reached = LEADS.filter((l) => l.status?.contactStatus === 'reached').length;
-  const bought = LEADS.filter((l) => l.status?.saleStatus === 'bought').length;
+  const active = LEADS.filter((l) => !l.status?.deleted);
+  const total = active.length;
+  const today = active.filter((l) => l.ts.slice(0, 10) === todayUTC).length;
+  const reached = active.filter((l) => l.status?.contactStatus === 'reached').length;
+  const bought = active.filter((l) => l.status?.saleStatus === 'bought').length;
   const conv = total ? Math.round((bought / total) * 100) : 0;
   document.getElementById('stats').innerHTML = `
     <div class="stat"><div class="n">${total}</div><div class="l">Всього</div></div>
@@ -246,6 +266,10 @@ function leadMatches(l) {
   const fc = document.getElementById('fContact').value;
   const fs = document.getElementById('fSale').value;
   const fsrc = document.getElementById('fSource').value;
+  const fstate = document.getElementById('fState').value;
+  const isDeleted = !!l.status?.deleted;
+  if (fstate === 'active' && isDeleted) return false;
+  if (fstate === 'deleted' && !isDeleted) return false;
   if (fc && (l.status?.contactStatus || 'new') !== fc) return false;
   if (fs) {
     const sale = l.status?.saleStatus || 'none';
@@ -267,21 +291,22 @@ function fieldTag(label, value) {
 function cardHTML(l) {
   const cs = l.status?.contactStatus || 'new';
   const ss = l.status?.saleStatus || 'none';
+  const deleted = !!l.status?.deleted;
   const f = l.fields;
   const phone = f['Телефон'];
   const sectionsHTML = Object.entries(l.sections)
     .filter(([, v]) => v)
-    .map(([k, v]) => `<div class="sec"><b>${esc(k)}</b>${esc(v)}</div>`)
+    .map(([k, v]) => `<div class="sec"><b>${esc(k)}</b><span class="body">${esc(v)}</span></div>`)
     .join('');
-  const classes = ['card', ss === 'bought' ? 'is-bought' : '', ss === 'rejected' ? 'is-rejected' : ''].join(' ').trim();
+  const classes = ['card', ss === 'bought' ? 'is-bought' : '', ss === 'rejected' ? 'is-rejected' : '', deleted ? 'is-deleted' : ''].join(' ').replace(/\s+/g, ' ').trim();
 
   return `<div class="${classes}" data-id="${esc(l.id)}">
     <div class="card-head">
       <div class="who">${contactLink(l.contact)}</div>
-      <div class="ts">${esc(l.ts)}</div>
-    </div>
-    <div class="quick">
-      ${phone ? `<a href="tel:${esc(phone.replace(/\s/g, ''))}">📞 ${esc(phone)}</a>` : ''}
+      <div class="right">
+        ${phone ? `<a class="phone" href="tel:${esc(phone.replace(/\s/g, ''))}">📞 ${esc(phone)}</a>` : ''}
+        <span class="ts">${esc(fmtDate(l.ts))}</span>
+      </div>
     </div>
     <div class="tags">
       ${fieldTag('Source', f.Source).replace('class="tag"', 'class="tag src"')}
@@ -304,6 +329,7 @@ function cardHTML(l) {
           ${['none', 'bought', 'rejected'].map((k) => `<button class="pill s-${k} ${ss === k ? 'active' : ''}" data-v="${k}">${SALE_LABELS[k]}</button>`).join('')}
         </div>
       </div>
+      <button class="del-btn" data-act="del">${deleted ? '↩ Відновити' : '🗑 Видалити'}</button>
       <div class="comment-wrap">
         <span>Коментар <i class="saved">збережено ✓</i></span>
         <textarea placeholder="Нотатка менеджера…">${esc(l.status?.comment || '')}</textarea>
@@ -356,6 +382,16 @@ function bindCards() {
       clearTimeout(saveTimers[id]);
       saveTimers[id] = setTimeout(() => saveStatus(id, { comment: ta.value }, saved), 800);
     };
+    const delBtn = card.querySelector('.del-btn');
+    delBtn.onclick = async () => {
+      const lead = LEADS.find((l) => l.id === id);
+      const nowDeleted = !lead?.status?.deleted;
+      if (nowDeleted && !confirm('Перенести заявку у «Видалені»? Її можна буде відновити.')) return;
+      await saveStatus(id, { deleted: nowDeleted });
+      render();
+    };
+    // Клік по тексту заявки розгортає/згортає повний опис.
+    card.querySelector('.sections').onclick = () => card.classList.toggle('expanded');
   });
 }
 
@@ -366,7 +402,7 @@ async function load() {
   render();
 }
 
-['search', 'fContact', 'fSale', 'fSource'].forEach((idv) => {
+['search', 'fContact', 'fSale', 'fSource', 'fState'].forEach((idv) => {
   document.getElementById(idv).addEventListener('input', render);
 });
 document.getElementById('refreshBtn').addEventListener('click', () => {

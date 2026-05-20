@@ -14,12 +14,14 @@ export default async function handler(req, res) {
   const auth = checkAuth(req);
   if (!auth.ok) return res.status(auth.code).json({ error: auth.error });
 
-  const { id, contactStatus, saleStatus, comment } = req.body || {};
+  const { id, contactStatus, saleStatus, comment, deleted } = req.body || {};
   if (!id) return res.status(400).json({ error: 'Missing id' });
   if (contactStatus !== undefined && !CONTACT.includes(contactStatus))
     return res.status(400).json({ error: 'Bad contactStatus' });
   if (saleStatus !== undefined && !SALE.includes(saleStatus))
     return res.status(400).json({ error: 'Bad saleStatus' });
+  if (deleted !== undefined && typeof deleted !== 'boolean')
+    return res.status(400).json({ error: 'Bad deleted' });
 
   try {
     const gist = await fetchGist();
@@ -38,6 +40,7 @@ export default async function handler(req, res) {
     if (contactStatus !== undefined) next.contactStatus = contactStatus;
     if (saleStatus !== undefined) next.saleStatus = saleStatus;
     if (comment !== undefined) next.comment = String(comment).slice(0, 2000);
+    if (deleted !== undefined) next.deleted = deleted;
     next.updatedAt = new Date().toISOString();
     statuses[id] = next;
 
