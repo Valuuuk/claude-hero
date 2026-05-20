@@ -3,7 +3,7 @@
 import { checkAuth, fetchGist, gistFiles, patchGistFile } from './_gist.js';
 
 const CONTACT = ['new', 'reached', 'noanswer'];
-const SALE = ['none', 'bought', 'rejected'];
+const SALE = ['none', 'thinking', 'bought', 'rejected'];
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

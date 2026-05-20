@@ -105,6 +105,7 @@
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; margin-bottom: 8px; }
   .card.is-bought { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
   .card.is-rejected { opacity: .6; }
+  .card.is-thinking { border-color: #c79a3e; box-shadow: 0 0 0 1px #c79a3e inset; }
   .card.is-deleted { opacity: .5; background: #f0ebe0; }
   .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
   .card-head .who { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
@@ -133,6 +134,7 @@
   .pill.active.c-new { background: var(--orange); }
   .pill.active.s-bought { background: var(--green); }
   .pill.active.s-rejected { background: var(--red); }
+  .pill.active.s-thinking { background: #c79a3e; }
   .pill.active.s-none { background: var(--ink-soft); }
   .del-btn { margin-left: auto; border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 12px; font-family: var(--font-body); padding: 4px 8px; border-radius: 8px; }
   .del-btn:hover { background: #f3d9d2; color: var(--red); }
@@ -195,7 +197,7 @@
 
 <script>
 const CONTACT_LABELS = { new: 'Новий', reached: "Зв'язались", noanswer: 'Не додзвон' };
-const SALE_LABELS = { none: '—', bought: 'Купив', rejected: 'Відмова' };
+const SALE_LABELS = { none: '—', thinking: 'Думає', bought: 'Купив', rejected: 'Відмова' };
 let LEADS = [];
 let currentTab = 'active';
 
@@ -325,7 +327,7 @@ function cardHTML(l) {
     .filter(([, v]) => v)
     .map(([k, v]) => `<div class="sec"><b>${esc(k)}</b><span class="body">${esc(v)}</span></div>`)
     .join('');
-  const classes = ['card', ss === 'bought' ? 'is-bought' : '', ss === 'rejected' ? 'is-rejected' : '', deleted ? 'is-deleted' : ''].join(' ').replace(/\s+/g, ' ').trim();
+  const classes = ['card', ss === 'bought' ? 'is-bought' : '', ss === 'thinking' ? 'is-thinking' : '', ss === 'rejected' ? 'is-rejected' : '', deleted ? 'is-deleted' : ''].join(' ').replace(/\s+/g, ' ').trim();
 
   return `<div class="${classes}" data-id="${esc(l.id)}">
     <div class="card-head">
@@ -353,7 +355,7 @@ function cardHTML(l) {
       <div class="group">
         <span>Продаж</span>
         <div class="pill-row" data-kind="sale">
-          ${['none', 'bought', 'rejected'].map((k) => `<button class="pill s-${k} ${ss === k ? 'active' : ''}" data-v="${k}">${SALE_LABELS[k]}</button>`).join('')}
+          ${['none', 'thinking', 'bought', 'rejected'].map((k) => `<button class="pill s-${k} ${ss === k ? 'active' : ''}" data-v="${k}">${SALE_LABELS[k]}</button>`).join('')}
         </div>
       </div>
       <button class="del-btn" data-act="del">${deleted ? '↩ Відновити' : '🗑 Видалити'}</button>
