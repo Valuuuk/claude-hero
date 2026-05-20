@@ -85,6 +85,22 @@
     font-family: var(--font-body); font-size: 14px; cursor: pointer;
   }
 
+  /* tabs */
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab {
+    border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 8px 16px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 600; cursor: pointer; color: var(--ink-soft);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .tab:hover { border-color: var(--ink-soft); }
+  .tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tab i { font-style: normal; font-size: 12px; font-family: var(--font-mono); background: rgba(0,0,0,.12); padding: 1px 7px; border-radius: 999px; }
+  .tab.active i { background: rgba(255,255,255,.22); }
+
+  /* list grid */
+  #list { display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 10px; align-items: start; }
+  @media (max-width: 720px) { #list { grid-template-columns: 1fr; } }
+
   /* card */
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; margin-bottom: 8px; }
   .card.is-bought { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
@@ -130,8 +146,8 @@
   .saved { font-size: 10px; color: var(--green); opacity: 0; transition: opacity .2s; }
   .saved.show { opacity: 1; }
 
-  .empty { text-align: center; color: var(--ink-soft); padding: 60px 20px; font-size: 15px; }
-  .loading { text-align: center; color: var(--ink-soft); padding: 40px; }
+  .empty { text-align: center; color: var(--ink-soft); padding: 60px 20px; font-size: 15px; grid-column: 1 / -1; }
+  .loading { text-align: center; color: var(--ink-soft); padding: 40px; grid-column: 1 / -1; }
 </style>
 </head>
 <body>
@@ -157,6 +173,12 @@
 
   <div class="stats" id="stats"></div>
 
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="active">Активні <i id="cnt-active">0</i></button>
+    <button class="tab" data-tab="bought">Купили <i id="cnt-bought">0</i></button>
+    <button class="tab" data-tab="deleted">Видалені <i id="cnt-deleted">0</i></button>
+  </div>
+
   <div class="controls">
     <input type="search" id="search" placeholder="Пошук: контакт, біль, коментар…" />
     <select id="fContact">
@@ -165,18 +187,7 @@
       <option value="reached">Зв'язались</option>
       <option value="noanswer">Не додзвон</option>
     </select>
-    <select id="fSale">
-      <option value="">Продаж: всі</option>
-      <option value="bought">Купив</option>
-      <option value="rejected">Відмова</option>
-      <option value="none">Без статусу</option>
-    </select>
-    <select id="fSource"><option value="">Source: всі</option></select>
-    <select id="fState">
-      <option value="active">Активні</option>
-      <option value="deleted">Видалені</option>
-      <option value="all">Всі</option>
-    </select>
+    <select id="fSource"><option value="">Джерело: всі</option></select>
   </div>
 
   <div id="list"><div class="loading">Завантаження…</div></div>
@@ -186,6 +197,17 @@
 const CONTACT_LABELS = { new: 'Новий', reached: "Зв'язались", noanswer: 'Не додзвон' };
 const SALE_LABELS = { none: '—', bought: 'Купив', rejected: 'Відмова' };
 let LEADS = [];
+let currentTab = 'active';
+
+const isDeleted = (l) => !!l.status?.deleted;
+const isBought = (l) => l.status?.saleStatus === 'bought';
+const isProcessed = (l) => ['reached', 'noanswer'].includes(l.status?.contactStatus);
+
+function tabOf(l) {
+  if (isDeleted(l)) return 'deleted';
+  if (isBought(l)) return 'bought';
+  return 'active';
+}
 
 function pw() { return localStorage.getItem('crm_pw') || ''; }
 
@@ -262,26 +284,31 @@ function populateSources() {
 }
 
 function leadMatches(l) {
+  if (tabOf(l) !== currentTab) return false;
   const q = document.getElementById('search').value.trim().toLowerCase();
   const fc = document.getElementById('fContact').value;
-  const fs = document.getElementById('fSale').value;
   const fsrc = document.getElementById('fSource').value;
-  const fstate = document.getElementById('fState').value;
-  const isDeleted = !!l.status?.deleted;
-  if (fstate === 'active' && isDeleted) return false;
-  if (fstate === 'deleted' && !isDeleted) return false;
   if (fc && (l.status?.contactStatus || 'new') !== fc) return false;
-  if (fs) {
-    const sale = l.status?.saleStatus || 'none';
-    if (fs === 'none' && sale !== 'none') return false;
-    if (fs !== 'none' && sale !== fs) return false;
-  }
   if (fsrc && l.fields.Source !== fsrc) return false;
   if (q) {
     const hay = [l.contact, JSON.stringify(l.fields), JSON.stringify(l.sections), l.status?.comment].join(' ').toLowerCase();
     if (!hay.includes(q)) return false;
   }
   return true;
+}
+
+// Сортування: у «Активних» — найдавніша необроблена згори (черга FIFO);
+// необроблені вище за оброблені. В інших табах — найновіші згори.
+function sortForTab(arr) {
+  if (currentTab === 'active') {
+    return arr.sort((a, b) => {
+      const pa = isProcessed(a) ? 1 : 0;
+      const pb = isProcessed(b) ? 1 : 0;
+      if (pa !== pb) return pa - pb;
+      return a.ts.localeCompare(b.ts);
+    });
+  }
+  return arr.sort((a, b) => b.ts.localeCompare(a.ts));
 }
 
 function fieldTag(label, value) {
@@ -309,7 +336,7 @@ function cardHTML(l) {
       </div>
     </div>
     <div class="tags">
-      ${fieldTag('Source', f.Source).replace('class="tag"', 'class="tag src"')}
+      ${fieldTag('Джерело', f.Source).replace('class="tag"', 'class="tag src"')}
       ${fieldTag('Хто', f['Хто'])}
       ${fieldTag('Рівень', f['Рівень з Claude'])}
       ${fieldTag('Бюджет', f['Бюджет'])}
@@ -338,12 +365,20 @@ function cardHTML(l) {
   </div>`;
 }
 
+function renderTabCounts() {
+  document.getElementById('cnt-active').textContent = LEADS.filter((l) => tabOf(l) === 'active').length;
+  document.getElementById('cnt-bought').textContent = LEADS.filter((l) => tabOf(l) === 'bought').length;
+  document.getElementById('cnt-deleted').textContent = LEADS.filter((l) => tabOf(l) === 'deleted').length;
+}
+
 function render() {
   renderStats();
+  renderTabCounts();
   const list = document.getElementById('list');
-  const filtered = LEADS.filter(leadMatches);
-  document.getElementById('meta').textContent = `${filtered.length} з ${LEADS.length} заявок`;
-  if (!filtered.length) { list.innerHTML = '<div class="empty">Нічого не знайдено за фільтрами.</div>'; return; }
+  const filtered = sortForTab(LEADS.filter(leadMatches));
+  const tabTotal = LEADS.filter((l) => tabOf(l) === currentTab).length;
+  document.getElementById('meta').textContent = `${filtered.length} з ${tabTotal} у вкладці`;
+  if (!filtered.length) { list.innerHTML = '<div class="empty">Нічого не знайдено.</div>'; return; }
   list.innerHTML = filtered.map(cardHTML).join('');
   bindCards();
 }
@@ -402,8 +437,15 @@ async function load() {
   render();
 }
 
-['search', 'fContact', 'fSale', 'fSource', 'fState'].forEach((idv) => {
+['search', 'fContact', 'fSource'].forEach((idv) => {
   document.getElementById(idv).addEventListener('input', render);
+});
+document.querySelectorAll('.tab').forEach((t) => {
+  t.addEventListener('click', () => {
+    currentTab = t.dataset.tab;
+    document.querySelectorAll('.tab').forEach((x) => x.classList.toggle('active', x === t));
+    render();
+  });
 });
 document.getElementById('refreshBtn').addEventListener('click', () => {
   document.getElementById('list').innerHTML = '<div class="loading">Оновлення…</div>';
