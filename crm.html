@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>CRM — Заявки на курс</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --paper: #f5efe4;
+    --card: #fffdf8;
+    --ink: #0a0a0a;
+    --ink-soft: #44403a;
+    --line: #e3dccd;
+    --orange: #d97757;
+    --orange-deep: #b85d3f;
+    --green: #4f7a52;
+    --red: #b14a3c;
+    --blue: #3f6079;
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.45;
+  }
+  a { color: var(--orange-deep); }
+
+  /* ===== LOGIN ===== */
+  #login {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: var(--ink); z-index: 50; padding: 24px;
+  }
+  #login form {
+    background: var(--card); border-radius: 18px; padding: 36px 32px; width: 100%; max-width: 380px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  }
+  #login h1 { font-family: var(--font-display); font-size: 26px; margin-bottom: 6px; }
+  #login p { color: var(--ink-soft); font-size: 14px; margin-bottom: 22px; }
+  #login input {
+    width: 100%; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 12px;
+    font-size: 16px; font-family: var(--font-body); margin-bottom: 14px; background: var(--paper);
+  }
+  #login input:focus { outline: none; border-color: var(--orange); }
+  .btn-primary {
+    width: 100%; padding: 14px; border: none; border-radius: 12px; background: var(--orange);
+    color: #fff; font-size: 16px; font-weight: 600; font-family: var(--font-body); cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--orange-deep); }
+  #login .err { color: var(--red); font-size: 13px; margin-top: 10px; min-height: 18px; }
+
+  /* ===== APP ===== */
+  #app { display: none; max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+  header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+  header.top h1 { font-family: var(--font-display); font-size: clamp(26px, 4vw, 36px); }
+  header.top .meta { color: var(--ink-soft); font-size: 13px; font-family: var(--font-mono); }
+  .refresh { background: none; border: 1.5px solid var(--line); border-radius: 10px; padding: 8px 14px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: 13px; }
+  .refresh:hover { border-color: var(--orange); color: var(--orange-deep); }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .stat .n { font-family: var(--font-display); font-size: 30px; line-height: 1; }
+  .stat .l { color: var(--ink-soft); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; margin-top: 6px; }
+  .stat.accent .n { color: var(--orange-deep); }
+  .stat.good .n { color: var(--green); }
+
+  /* controls */
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
+  .controls input[type=search] {
+    flex: 1; min-width: 200px; padding: 11px 14px; border: 1.5px solid var(--line); border-radius: 10px;
+    font-family: var(--font-body); font-size: 14px; background: var(--card);
+  }
+  .controls input[type=search]:focus { outline: none; border-color: var(--orange); }
+  .controls select {
+    padding: 11px 12px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--card);
+    font-family: var(--font-body); font-size: 14px; cursor: pointer;
+  }
+
+  /* card */
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin-bottom: 14px; }
+  .card.is-bought { border-color: var(--green); box-shadow: 0 0 0 1px var(--green) inset; }
+  .card.is-rejected { opacity: .62; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .card-head .who { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
+  .card-head .ts { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 12px; }
+  .tag { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); color: var(--ink-soft); }
+  .tag.src { background: #efe7d6; color: var(--orange-deep); font-family: var(--font-mono); }
+  .quick { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; font-size: 13px; }
+  .quick a { font-weight: 600; text-decoration: none; }
+  .quick a:hover { text-decoration: underline; }
+  .sections { font-size: 14px; color: var(--ink-soft); }
+  .sections .sec { margin-top: 8px; }
+  .sections .sec b { color: var(--ink); font-weight: 600; display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 2px; }
+
+  .actions { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); align-items: flex-start; }
+  .actions .group { display: flex; flex-direction: column; gap: 6px; }
+  .actions .group > span { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+  .pill-row { display: flex; gap: 6px; }
+  .pill { border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; font-family: var(--font-body); font-weight: 500; }
+  .pill:hover { border-color: var(--ink-soft); }
+  .pill.active { color: #fff; border-color: transparent; }
+  .pill.active.c-reached { background: var(--blue); }
+  .pill.active.c-noanswer { background: var(--ink-soft); }
+  .pill.active.c-new { background: var(--orange); }
+  .pill.active.s-bought { background: var(--green); }
+  .pill.active.s-rejected { background: var(--red); }
+  .pill.active.s-none { background: var(--ink-soft); }
+  .comment-wrap { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .comment-wrap span { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+  .comment-wrap textarea {
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 11px; font-family: var(--font-body);
+    font-size: 14px; resize: vertical; min-height: 42px; background: var(--paper);
+  }
+  .comment-wrap textarea:focus { outline: none; border-color: var(--orange); }
+  .saved { font-size: 11px; color: var(--green); opacity: 0; transition: opacity .2s; }
+  .saved.show { opacity: 1; }
+
+  .empty { text-align: center; color: var(--ink-soft); padding: 60px 20px; font-size: 15px; }
+  .loading { text-align: center; color: var(--ink-soft); padding: 40px; }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <form id="loginForm">
+    <h1>CRM — Заявки</h1>
+    <p>Введи пароль доступу.</p>
+    <input type="password" id="pw" placeholder="Пароль" autocomplete="current-password" />
+    <button type="submit" class="btn-primary">Увійти</button>
+    <div class="err" id="loginErr"></div>
+  </form>
+</div>
+
+<div id="app">
+  <header class="top">
+    <div>
+      <h1>Заявки на курс</h1>
+      <div class="meta" id="meta">—</div>
+    </div>
+    <button class="refresh" id="refreshBtn">↻ Оновити</button>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input type="search" id="search" placeholder="Пошук: контакт, біль, коментар…" />
+    <select id="fContact">
+      <option value="">Контакт: всі</option>
+      <option value="new">Новий</option>
+      <option value="reached">Зв'язались</option>
+      <option value="noanswer">Не додзвон</option>
+    </select>
+    <select id="fSale">
+      <option value="">Продаж: всі</option>
+      <option value="bought">Купив</option>
+      <option value="rejected">Відмова</option>
+      <option value="none">Без статусу</option>
+    </select>
+    <select id="fSource"><option value="">Source: всі</option></select>
+  </div>
+
+  <div id="list"><div class="loading">Завантаження…</div></div>
+</div>
+
+<script>
+const CONTACT_LABELS = { new: 'Новий', reached: "Зв'язались", noanswer: 'Не додзвон' };
+const SALE_LABELS = { none: '—', bought: 'Купив', rejected: 'Відмова' };
+let LEADS = [];
+
+function pw() { return localStorage.getItem('crm_pw') || ''; }
+
+async function api(path, opts = {}) {
+  const res = await fetch(path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + pw(), ...(opts.headers || {}) },
+  });
+  if (res.status === 401) { logout(); throw new Error('unauth'); }
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || res.status);
+  return res.json();
+}
+
+function logout() {
+  localStorage.removeItem('crm_pw');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login').style.display = 'flex';
+}
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const val = document.getElementById('pw').value.trim();
+  const err = document.getElementById('loginErr');
+  err.textContent = '';
+  localStorage.setItem('crm_pw', val);
+  try {
+    await load();
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  } catch (ex) {
+    if (ex.message === 'unauth') err.textContent = 'Невірний пароль.';
+    else err.textContent = 'Помилка: ' + ex.message;
+  }
+});
+
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+function contactLink(contact) {
+  const c = contact.trim();
+  if (c.startsWith('@')) return `<a href="https://t.me/${esc(c.slice(1))}" target="_blank">${esc(c)} ↗</a>`;
+  if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c)) return `<a href="mailto:${esc(c)}">${esc(c)}</a>`;
+  return esc(c);
+}
+
+function renderStats() {
+  const todayUTC = new Date().toISOString().slice(0, 10);
+  const total = LEADS.length;
+  const today = LEADS.filter((l) => l.ts.slice(0, 10) === todayUTC).length;
+  const reached = LEADS.filter((l) => l.status?.contactStatus === 'reached').length;
+  const bought = LEADS.filter((l) => l.status?.saleStatus === 'bought').length;
+  const conv = total ? Math.round((bought / total) * 100) : 0;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="n">${total}</div><div class="l">Всього</div></div>
+    <div class="stat accent"><div class="n">${today}</div><div class="l">Сьогодні</div></div>
+    <div class="stat"><div class="n">${reached}</div><div class="l">Зв'язались</div></div>
+    <div class="stat good"><div class="n">${bought}</div><div class="l">Купили</div></div>
+    <div class="stat"><div class="n">${conv}%</div><div class="l">Конверсія</div></div>`;
+}
+
+function populateSources() {
+  const sel = document.getElementById('fSource');
+  const sources = [...new Set(LEADS.map((l) => l.fields.Source).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">Source: всі</option>' + sources.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+}
+
+function leadMatches(l) {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const fc = document.getElementById('fContact').value;
+  const fs = document.getElementById('fSale').value;
+  const fsrc = document.getElementById('fSource').value;
+  if (fc && (l.status?.contactStatus || 'new') !== fc) return false;
+  if (fs) {
+    const sale = l.status?.saleStatus || 'none';
+    if (fs === 'none' && sale !== 'none') return false;
+    if (fs !== 'none' && sale !== fs) return false;
+  }
+  if (fsrc && l.fields.Source !== fsrc) return false;
+  if (q) {
+    const hay = [l.contact, JSON.stringify(l.fields), JSON.stringify(l.sections), l.status?.comment].join(' ').toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function fieldTag(label, value) {
+  return value ? `<span class="tag">${esc(label)}: ${esc(value)}</span>` : '';
+}
+
+function cardHTML(l) {
+  const cs = l.status?.contactStatus || 'new';
+  const ss = l.status?.saleStatus || 'none';
+  const f = l.fields;
+  const phone = f['Телефон'];
+  const sectionsHTML = Object.entries(l.sections)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `<div class="sec"><b>${esc(k)}</b>${esc(v)}</div>`)
+    .join('');
+  const classes = ['card', ss === 'bought' ? 'is-bought' : '', ss === 'rejected' ? 'is-rejected' : ''].join(' ').trim();
+
+  return `<div class="${classes}" data-id="${esc(l.id)}">
+    <div class="card-head">
+      <div class="who">${contactLink(l.contact)}</div>
+      <div class="ts">${esc(l.ts)}</div>
+    </div>
+    <div class="quick">
+      ${phone ? `<a href="tel:${esc(phone.replace(/\s/g, ''))}">📞 ${esc(phone)}</a>` : ''}
+    </div>
+    <div class="tags">
+      ${fieldTag('Source', f.Source).replace('class="tag"', 'class="tag src"')}
+      ${fieldTag('Хто', f['Хто'])}
+      ${fieldTag('Рівень', f['Рівень з Claude'])}
+      ${fieldTag('Бюджет', f['Бюджет'])}
+      ${fieldTag('Готовність', f['Готовність'])}
+    </div>
+    <div class="sections">${sectionsHTML}</div>
+    <div class="actions">
+      <div class="group">
+        <span>Контакт</span>
+        <div class="pill-row" data-kind="contact">
+          ${['new', 'reached', 'noanswer'].map((k) => `<button class="pill c-${k} ${cs === k ? 'active' : ''}" data-v="${k}">${CONTACT_LABELS[k]}</button>`).join('')}
+        </div>
+      </div>
+      <div class="group">
+        <span>Продаж</span>
+        <div class="pill-row" data-kind="sale">
+          ${['none', 'bought', 'rejected'].map((k) => `<button class="pill s-${k} ${ss === k ? 'active' : ''}" data-v="${k}">${SALE_LABELS[k]}</button>`).join('')}
+        </div>
+      </div>
+      <div class="comment-wrap">
+        <span>Коментар <i class="saved">збережено ✓</i></span>
+        <textarea placeholder="Нотатка менеджера…">${esc(l.status?.comment || '')}</textarea>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  renderStats();
+  const list = document.getElementById('list');
+  const filtered = LEADS.filter(leadMatches);
+  document.getElementById('meta').textContent = `${filtered.length} з ${LEADS.length} заявок`;
+  if (!filtered.length) { list.innerHTML = '<div class="empty">Нічого не знайдено за фільтрами.</div>'; return; }
+  list.innerHTML = filtered.map(cardHTML).join('');
+  bindCards();
+}
+
+let saveTimers = {};
+async function saveStatus(id, patch, savedEl) {
+  try {
+    const { status } = await api('/api/lead-status', { method: 'POST', body: JSON.stringify({ id, ...patch }) });
+    const lead = LEADS.find((l) => l.id === id);
+    if (lead) lead.status = status;
+    if (savedEl) { savedEl.classList.add('show'); setTimeout(() => savedEl.classList.remove('show'), 1500); }
+    return status;
+  } catch (ex) {
+    alert('Не вдалось зберегти: ' + ex.message);
+  }
+}
+
+function bindCards() {
+  document.querySelectorAll('.card').forEach((card) => {
+    const id = card.dataset.id;
+    card.querySelectorAll('.pill-row[data-kind=contact] .pill').forEach((b) => {
+      b.onclick = async () => {
+        await saveStatus(id, { contactStatus: b.dataset.v });
+        render();
+      };
+    });
+    card.querySelectorAll('.pill-row[data-kind=sale] .pill').forEach((b) => {
+      b.onclick = async () => {
+        await saveStatus(id, { saleStatus: b.dataset.v });
+        render();
+      };
+    });
+    const ta = card.querySelector('textarea');
+    const saved = card.querySelector('.saved');
+    ta.oninput = () => {
+      clearTimeout(saveTimers[id]);
+      saveTimers[id] = setTimeout(() => saveStatus(id, { comment: ta.value }, saved), 800);
+    };
+  });
+}
+
+async function load() {
+  const { leads } = await api('/api/leads');
+  LEADS = leads;
+  populateSources();
+  render();
+}
+
+['search', 'fContact', 'fSale', 'fSource'].forEach((idv) => {
+  document.getElementById(idv).addEventListener('input', render);
+});
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  document.getElementById('list').innerHTML = '<div class="loading">Оновлення…</div>';
+  load();
+});
+
+// Авто-вхід якщо пароль уже збережено.
+(async () => {
+  if (pw()) {
+    try {
+      await load();
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    } catch { /* лишаємось на логіні */ }
+  }
+})();
+</script>
+</body>
+</html>
