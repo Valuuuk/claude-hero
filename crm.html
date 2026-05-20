@@ -85,6 +85,29 @@
     font-family: var(--font-body); font-size: 14px; cursor: pointer;
   }
 
+  /* mode switch */
+  .modes { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1.5px solid var(--line); }
+  .mode {
+    border: none; background: none; padding: 10px 4px; margin-bottom: -1.5px; cursor: pointer;
+    font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--ink-soft);
+    border-bottom: 2.5px solid transparent; display: flex; align-items: center; gap: 7px;
+  }
+  .mode:hover { color: var(--ink); }
+  .mode.active { color: var(--ink); border-bottom-color: var(--orange); }
+  .mode i { font-style: normal; font-size: 12px; font-family: var(--font-mono); background: var(--line); padding: 1px 7px; border-radius: 999px; }
+
+  /* clients table */
+  .ctable { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 13px; }
+  .ctable th { text-align: left; padding: 10px 12px; background: var(--paper); font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--ink-soft); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .ctable td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .ctable tr:last-child td { border-bottom: none; }
+  .ctable tr:hover td { background: #fbf8f1; }
+  .ctable .num { color: var(--ink-soft); font-family: var(--font-mono); }
+  .ctable a { text-decoration: none; font-weight: 600; }
+  .ctable a:hover { text-decoration: underline; }
+  .ctable .tar { font-weight: 600; }
+  .ctable-wrap { overflow-x: auto; }
+
   /* tabs */
   .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
   .tab {
@@ -177,6 +200,12 @@
     </div>
   </header>
 
+  <div class="modes">
+    <button class="mode active" data-mode="leads">📋 Заявки</button>
+    <button class="mode" data-mode="clients">💳 Клієнти <i id="cnt-clients"></i></button>
+  </div>
+
+  <div id="leadsView">
   <div class="stats" id="stats"></div>
 
   <div class="tabs" id="tabs">
@@ -197,6 +226,16 @@
   </div>
 
   <div id="list"><div class="loading">Завантаження…</div></div>
+  </div>
+
+  <div id="clientsView" style="display:none">
+    <div class="stats" id="clientsStats"></div>
+    <div class="controls">
+      <input type="search" id="cSearch" placeholder="Пошук клієнта: ім'я, email, телефон…" />
+      <select id="cTariff"><option value="">Тариф: всі</option></select>
+    </div>
+    <div id="clientsTable"><div class="loading">Завантаження…</div></div>
+  </div>
 </div>
 
 <script>
@@ -243,6 +282,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     await load();
     document.getElementById('login').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    loadClients();
   } catch (ex) {
     if (ex.message === 'unauth') err.textContent = 'Невірний пароль.';
     else err.textContent = 'Помилка: ' + ex.message;
@@ -475,6 +515,71 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
   }
 });
 
+// ===== Клієнти (реєстр оплат) =====
+let CLIENTS = [];
+let clientsLoaded = false;
+
+const tgLink = (s) => {
+  const m = String(s || '').match(/(?:t\.me\/|@)([A-Za-z0-9_]+)/i);
+  return m ? `<a href="https://t.me/${esc(m[1])}" target="_blank">@${esc(m[1])}</a>` : esc(s || '');
+};
+
+function renderClients() {
+  const q = document.getElementById('cSearch').value.trim().toLowerCase();
+  const ft = document.getElementById('cTariff').value;
+  const rows = CLIENTS.filter((c) => {
+    if (ft && c.tariffGroup !== ft) return false;
+    if (q && ![c.name, c.email, c.phone, c.tg, c.source].join(' ').toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  const byT = {};
+  CLIENTS.forEach((c) => { byT[c.tariffGroup] = (byT[c.tariffGroup] || 0) + 1; });
+  document.getElementById('clientsStats').innerHTML =
+    `<div class="stat good"><div class="n">${CLIENTS.length}</div><div class="l">Всього клієнтів</div></div>` +
+    Object.entries(byT).sort((a, b) => b[1] - a[1]).map(([t, n]) =>
+      `<div class="stat"><div class="n">${n}</div><div class="l">${esc(t)}</div></div>`).join('');
+
+  const tbl = document.getElementById('clientsTable');
+  if (!rows.length) { tbl.innerHTML = '<div class="empty">Нічого не знайдено.</div>'; return; }
+  tbl.innerHTML = `<div class="ctable-wrap"><table class="ctable">
+    <thead><tr><th>#</th><th>Ім'я</th><th>Email</th><th>Телефон</th><th>Тариф</th><th>Telegram</th><th>Звідки</th></tr></thead>
+    <tbody>${rows.map((c) => `<tr>
+      <td class="num">${esc(c.n)}</td>
+      <td>${esc(c.name)}</td>
+      <td>${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : '—'}</td>
+      <td>${c.phone ? `<a href="tel:${esc(c.phone.replace(/\s/g, ''))}">${esc(c.phone)}</a>` : '—'}</td>
+      <td class="tar">${esc(c.tariff || '—')}</td>
+      <td>${c.tg ? tgLink(c.tg) : '—'}</td>
+      <td>${esc(c.source || '—')}</td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+async function loadClients() {
+  try {
+    const { clients } = await api('/api/clients');
+    CLIENTS = clients;
+    clientsLoaded = true;
+    const tsel = document.getElementById('cTariff');
+    const groups = [...new Set(clients.map((c) => c.tariffGroup))].sort();
+    tsel.innerHTML = '<option value="">Тариф: всі</option>' + groups.map((g) => `<option value="${esc(g)}">${esc(g)}</option>`).join('');
+    document.getElementById('cnt-clients').textContent = clients.length;
+    renderClients();
+  } catch (ex) {
+    if (ex.message !== 'unauth') document.getElementById('clientsTable').innerHTML = `<div class="empty">Помилка: ${esc(ex.message)}</div>`;
+  }
+}
+
+function switchMode(mode) {
+  document.querySelectorAll('.mode').forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
+  document.getElementById('leadsView').style.display = mode === 'leads' ? 'block' : 'none';
+  document.getElementById('clientsView').style.display = mode === 'clients' ? 'block' : 'none';
+  if (mode === 'clients' && !clientsLoaded) loadClients();
+}
+
+document.querySelectorAll('.mode').forEach((b) => b.addEventListener('click', () => switchMode(b.dataset.mode)));
+['cSearch', 'cTariff'].forEach((id) => document.getElementById(id).addEventListener('input', renderClients));
+
 // Авто-вхід якщо пароль уже збережено.
 (async () => {
   if (pw()) {
@@ -482,6 +587,7 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
       await load();
       document.getElementById('login').style.display = 'none';
       document.getElementById('app').style.display = 'block';
+      loadClients();
     } catch { /* лишаємось на логіні */ }
   }
 })();
