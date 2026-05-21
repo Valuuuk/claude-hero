@@ -518,6 +518,74 @@
   .tariff-card.featured .tariff-cta::before { background: var(--paper); }
   .tariff-card.featured .tariff-cta:hover { color: var(--ink); }
 
+  /* enhanced tariff card content */
+  .tariffs-grid { grid-template-columns: repeat(2, 1fr); max-width: 860px; margin: 0 auto; }
+  @media (max-width: 700px) { .tariffs-grid { grid-template-columns: 1fr; } }
+
+  .tariff-price-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .tariff-price-main {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(52px, 7vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    font-variation-settings: "opsz" 144;
+  }
+  .tariff-card.featured .tariff-price-main { color: #b4f046; }
+  .tariff-price-old {
+    font-family: var(--font-body);
+    font-size: 17px;
+    color: rgba(245, 239, 228, 0.3);
+    text-decoration: line-through;
+  }
+  .tariff-price-uah {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(245, 239, 228, 0.38);
+    margin-top: 4px;
+  }
+  .tariff-features { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+  .tariff-features li {
+    display: flex; gap: 10px;
+    font-family: var(--font-body);
+    font-size: 13.5px; line-height: 1.45;
+    align-items: flex-start;
+  }
+  .tariff-features li::before { flex-shrink: 0; font-size: 12px; margin-top: 2px; }
+  .tariff-features li.inc { color: rgba(245, 239, 228, 0.85); }
+  .tariff-features li.inc::before { content: '✓'; color: var(--orange); font-weight: 700; }
+  .tariff-card.featured .tariff-features li.inc::before { color: #b4f046; }
+  .tariff-features li.exc { color: rgba(245, 239, 228, 0.28); }
+  .tariff-features li.exc::before { content: '✕'; color: rgba(245, 239, 228, 0.2); }
+  .tariff-features li.exc span { text-decoration: line-through; text-decoration-color: rgba(245, 239, 228, 0.18); }
+  .tariff-divider { height: 1px; background: rgba(245, 239, 228, 0.07); }
+  .tariff-stack-label {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(245, 239, 228, 0.3);
+    margin-bottom: 10px;
+  }
+  .tariff-stack-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tariff-tag {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px solid rgba(245, 239, 228, 0.14);
+    border-radius: 100px;
+    color: rgba(245, 239, 228, 0.5);
+  }
+  .tariff-tag.tag-hi { border-color: rgba(184, 240, 70, 0.4); color: #b4f046; }
+  .tariff-note {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: rgba(245, 239, 228, 0.3);
+    line-height: 1.55;
+  }
+
   /* ===== PROMO (більше, ніж урок) ===== */
   .promo-section {
     padding: clamp(60px, 9vh, 110px) clamp(20px, 5vw, 60px);
@@ -658,12 +726,9 @@
 
 <section class="promo-section">
   <div class="promo-inner">
-    <div class="promo-eyebrow-wrap">
-      <span class="section-eyebrow"><span>Базова інформація</span></span>
-    </div>
     <h2 class="promo-title">Хочете <em>більше</em>?</h2>
     <p class="promo-desc">
-      Це лише вступ. Щоб навчитись Claude і AI на максимум — подивіться коротке відео про повний курс <strong>Claude Hero</strong>.
+      Це лише вступ. Хто хоче навчитись Claude і AI на максимум — подивіться коротке відео про повний курс <strong>Claude Hero</strong>.
     </p>
     <div class="video-frame">
       <iframe
@@ -682,46 +747,127 @@
     <div class="tariffs-head">
       <div class="section-eyebrow"><span>Тарифи</span></div>
       <h2 class="tariffs-title">Обирай свій <em>шлях</em></h2>
-      <p class="tariffs-sub">Три рівні занурення в Claude. Натисни — і відкриється чат, де я особисто проведу тебе до старту.</p>
+      <p class="tariffs-sub">Два рівні занурення в Claude. Натисни — і відкриється чат, де я особисто проведу тебе до старту.</p>
     </div>
 
     <div class="tariffs-grid">
+
       <!-- РОНІН -->
       <article class="tariff-card">
-        <div class="tariff-eyebrow">Рівень 1</div>
+        <div class="tariff-eyebrow">Тариф · 浪人</div>
         <h3 class="tariff-name">Ронін</h3>
-        <div class="tariff-price">— ₴ —</div>
-        <p class="tariff-desc">Базовий пакет. Старт у Claude без втрат часу і помилок новачка.</p>
+        <div class="tariff-price-row">
+          <div class="tariff-price-main">€79</div>
+          <div class="tariff-price-old">€99</div>
+        </div>
+        <div class="tariff-price-uah">≈ 4 065 грн</div>
+
+        <ul class="tariff-features">
+          <li class="inc"><span>Модуль 00 · Початок: Claude як OS</span></li>
+          <li class="inc"><span>Модуль 01: Преміум-дизайн і креативи</span></li>
+          <li class="inc"><span>Модуль 02: Сайти і продукт</span></li>
+          <li class="inc"><span>Модуль 03: Контент і просування</span></li>
+          <li class="inc"><span>Усі скіли і шаблони з курсу</span></li>
+          <li class="inc"><span>🎁 $300 на Nano Banana</span></li>
+          <li class="inc"><span>🎁 Ван-шот сайт</span></li>
+          <li class="inc"><span>🎁 30+ скілів пакетом</span></li>
+          <li class="inc"><span>Закритий Telegram-чат потоку</span></li>
+          <li class="inc"><span>Сертифікат Claude Hero</span></li>
+          <li class="inc"><span>Доступ довічний</span></li>
+          <li class="exc"><span>Модуль 04: AI-автоматизації для пошуку клієнтів</span></li>
+          <li class="exc"><span>Claude in Chrome, агент-помічник, cover letters</span></li>
+          <li class="exc"><span>Домашні завдання після кожного блоку</span></li>
+          <li class="exc"><span>2 живі зустрічі з розбором проектів</span></li>
+          <li class="exc"><span>Розширений пакет скілів і агентів</span></li>
+        </ul>
+
+        <div class="tariff-divider"></div>
+
+        <div>
+          <div class="tariff-stack-label">Стек</div>
+          <div class="tariff-stack-tags">
+            <span class="tariff-tag">Claude Code</span>
+            <span class="tariff-tag">Claude Projects</span>
+            <span class="tariff-tag">Skills</span>
+            <span class="tariff-tag">Artifacts</span>
+            <span class="tariff-tag">Claude Design</span>
+            <span class="tariff-tag">Figma</span>
+            <span class="tariff-tag">GitHub</span>
+            <span class="tariff-tag">Vercel</span>
+            <span class="tariff-tag">Notion</span>
+            <span class="tariff-tag">Higgsfield</span>
+            <span class="tariff-tag">Kling</span>
+            <span class="tariff-tag">Nano Banana</span>
+          </div>
+        </div>
+
         <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/gqyn9p?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=ronin" target="_blank" rel="noopener">
-          <span>Обрати Роніна</span>
+          <span>Записатись · Ронін</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
+        <p class="tariff-note">Для комфортного проходження курсу потрібна підписка Claude Pro від $20/міс (окремо від ціни тарифу).</p>
       </article>
 
       <!-- САМУРАЙ (featured) -->
       <article class="tariff-card featured">
-        <div class="tariff-badge">Найпопулярніший</div>
-        <div class="tariff-eyebrow">Рівень 2</div>
+        <div class="tariff-badge">· Рекомендую ·</div>
+        <div class="tariff-eyebrow">Тариф · 侍</div>
         <h3 class="tariff-name">Самурай</h3>
-        <div class="tariff-price">— ₴ —</div>
-        <p class="tariff-desc">Оптимальний пакет. Усе, що треба для впевненої роботи з Claude у твоєму ремеслі.</p>
+        <div class="tariff-price-row">
+          <div class="tariff-price-main">€99</div>
+          <div class="tariff-price-old">€149</div>
+        </div>
+        <div class="tariff-price-uah">≈ 5 095 грн</div>
+
+        <ul class="tariff-features">
+          <li class="inc"><span>Модуль 00 · Початок: Claude як OS</span></li>
+          <li class="inc"><span>Модуль 01: Преміум-дизайн і креативи</span></li>
+          <li class="inc"><span>Модуль 02: Сайти і продукт</span></li>
+          <li class="inc"><span>Модуль 03: Контент і просування</span></li>
+          <li class="inc"><span>Модуль 04: AI-автоматизації для пошуку клієнтів</span></li>
+          <li class="inc"><span>Усі скіли і шаблони з курсу</span></li>
+          <li class="inc"><span>Claude in Chrome, агент-помічник, cover letters</span></li>
+          <li class="inc"><span>Домашні завдання після кожного блоку</span></li>
+          <li class="inc"><span>2 живі зустрічі з розбором проектів</span></li>
+          <li class="inc"><span>🎁 $300 на Nano Banana</span></li>
+          <li class="inc"><span>🎁 Ван-шот сайт</span></li>
+          <li class="inc"><span>🎁 30+ скілів пакетом</span></li>
+          <li class="inc"><span>Закритий Telegram-чат потоку</span></li>
+          <li class="inc"><span>Розширений пакет скілів і агентів</span></li>
+          <li class="inc"><span>Сертифікат Claude Hero</span></li>
+          <li class="inc"><span>Доступ довічний</span></li>
+        </ul>
+
+        <div class="tariff-divider"></div>
+
+        <div>
+          <div class="tariff-stack-label">Стек</div>
+          <div class="tariff-stack-tags">
+            <span class="tariff-tag">Claude Code</span>
+            <span class="tariff-tag">Claude Projects</span>
+            <span class="tariff-tag">Skills</span>
+            <span class="tariff-tag">Artifacts</span>
+            <span class="tariff-tag">Claude Design</span>
+            <span class="tariff-tag">Figma</span>
+            <span class="tariff-tag">GitHub</span>
+            <span class="tariff-tag">Vercel</span>
+            <span class="tariff-tag">Notion</span>
+            <span class="tariff-tag">Higgsfield</span>
+            <span class="tariff-tag">Kling</span>
+            <span class="tariff-tag">Nano Banana</span>
+            <span class="tariff-tag tag-hi">MCP</span>
+            <span class="tariff-tag tag-hi">Claude in Chrome</span>
+            <span class="tariff-tag">Telegram</span>
+          </div>
+        </div>
+
         <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/bm92li?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=samurai" target="_blank" rel="noopener">
-          <span>Обрати Самурая</span>
+          <span>Записатись · Самурай</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
+        <p class="tariff-note">Для комфортного проходження курсу потрібна підписка Claude Pro від $20/міс (окремо від ціни тарифу).</p>
       </article>
 
-      <!-- МАЙСТЕР -->
-      <article class="tariff-card">
-        <div class="tariff-eyebrow">Рівень 3</div>
-        <h3 class="tariff-name">Майстер</h3>
-        <div class="tariff-price">— ₴ —</div>
-        <p class="tariff-desc">Преміум-занурення. Особиста увага, глибина і свій робочий стек агентів і скілів.</p>
-        <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/qq34q7?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=master" target="_blank" rel="noopener">
-          <span>Обрати Майстра</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
-      </article>
     </div>
   </div>
 </section>
