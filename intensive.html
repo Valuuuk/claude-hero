@@ -30,56 +30,12 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    padding-top: 42px;
-  }
-
-  /* ===== PROMO BAR ===== */
-  .promo-bar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-    background: #0a0a0a;
-    border-bottom: 1px solid rgba(217, 119, 87, 0.28);
-    display: flex; align-items: center; justify-content: center;
-    gap: clamp(10px, 2vw, 22px);
-    padding: 0 20px; height: 42px;
-  }
-  .promo-bar-brand { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-  .promo-bar-mark {
-    width: 18px; height: 18px; background: var(--orange); border-radius: 50%;
-    position: relative; flex-shrink: 0;
-  }
-  .promo-bar-mark::before {
-    content: '✱'; position: absolute; inset: 0;
-    color: var(--paper); font-size: 13px; line-height: 18px;
-    text-align: center; font-weight: 900;
-  }
-  .promo-bar-text {
-    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--paper); white-space: nowrap;
-  }
-  .promo-bar-timer {
-    font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--orange);
-    display: flex; align-items: baseline; gap: 1px; flex-shrink: 0;
-  }
-  .promo-bar-timer em { font-style: normal; font-size: 9px; font-weight: 500; opacity: 0.65; margin: 0 4px 0 1px; }
-  .promo-bar-cta {
-    background: var(--orange); color: var(--paper);
-    padding: 6px 14px; border-radius: 100px;
-    font-family: var(--font-mono); font-size: 10px; font-weight: 700;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    text-decoration: none; transition: background 0.2s;
-    white-space: nowrap; flex-shrink: 0;
-  }
-  .promo-bar-cta:hover { background: var(--orange-deep); }
-  @media (max-width: 580px) {
-    .promo-bar-brand { display: none; }
-    .promo-bar-text { font-size: 10px; letter-spacing: 0.04em; }
   }
 
   /* ===== NAV ===== */
   nav {
     position: fixed;
-    top: calc(42px + clamp(8px, 2vw, 14px));
+    top: clamp(16px, 2.5vw, 28px);
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
@@ -743,13 +699,6 @@
 </head>
 <body>
 
-<div class="promo-bar">
-  <span class="promo-bar-brand"><span class="promo-bar-mark"></span>🔥</span>
-  <span class="promo-bar-text">Знижена ціна до 24 травня</span>
-  <div class="promo-bar-timer"><span id="ptD">00</span><em>д</em><span id="ptH">00</span><em>г</em><span id="ptM">00</span><em>хв</em><span id="ptS">00</span><em>с</em></div>
-  <a href="#tarify" class="promo-bar-cta">Обрати тариф →</a>
-</div>
-
 <nav>
   <a href="/" class="nav-brand">
     <span class="nav-brand-mark"></span>
@@ -957,8 +906,6 @@
 <footer>
   Claude·Hero · Курс · <a href="/">На головну</a>
 </footer>
-
-<script>(function(){var end=new Date('2026-05-25T00:00:00+03:00').getTime();function tick(){var diff=end-Date.now();if(diff<0)diff=0;var s=Math.floor(diff/1000),d=Math.floor(s/86400);s%=86400;var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;function p(n){return n<10?'0'+n:''+n;}['ptD','ptH','ptM','ptS'].forEach(function(id,i){var el=document.getElementById(id);if(el)el.textContent=p([d,h,m,s][i]);});}tick();setInterval(tick,1000);})();</script>
 
 </body>
 </html>
