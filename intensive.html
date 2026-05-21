@@ -517,6 +517,116 @@
   .tariff-card.featured .tariff-cta { background: var(--orange); color: var(--paper); }
   .tariff-card.featured .tariff-cta::before { background: var(--paper); }
   .tariff-card.featured .tariff-cta:hover { color: var(--ink); }
+
+  /* ===== PROMO (більше, ніж урок) ===== */
+  .promo-section {
+    padding: clamp(60px, 9vh, 110px) clamp(20px, 5vw, 60px);
+    background: linear-gradient(180deg, var(--ink) 0%, #0f0b08 100%);
+    position: relative; overflow: hidden;
+  }
+  .promo-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(217, 119, 87, 0.14) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .promo-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative; z-index: 1;
+    text-align: center;
+  }
+  .promo-eyebrow-wrap { margin-bottom: 24px; }
+  .promo-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    margin-bottom: 20px;
+    font-variation-settings: "opsz" 100, "SOFT" 50;
+  }
+  .promo-title em { font-style: italic; color: var(--orange); font-weight: 500; }
+  .promo-desc {
+    font-family: var(--font-body);
+    font-size: clamp(14px, 1.15vw, 17px);
+    color: rgba(245, 239, 228, 0.65);
+    line-height: 1.55;
+    max-width: 540px;
+    margin: 0 auto clamp(40px, 6vh, 64px);
+  }
+  .promo-desc strong { color: var(--paper); font-weight: 600; }
+
+  /* ===== FAQ ===== */
+  .faq-section {
+    padding: clamp(60px, 10vh, 120px) clamp(20px, 5vw, 60px);
+    background: var(--ink);
+    position: relative;
+  }
+  .faq-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 100% 50%, rgba(217, 119, 87, 0.08) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .faq-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+  .faq-head { text-align: center; margin-bottom: clamp(40px, 6vh, 64px); }
+  .faq-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 100, "SOFT" 50;
+  }
+  .faq-title em { font-style: italic; color: var(--orange); font-weight: 500; }
+  .faq-list { display: grid; gap: 12px; }
+  .faq-item {
+    background: rgba(245, 239, 228, 0.04);
+    border: 1px solid rgba(245, 239, 228, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item[open] { border-color: rgba(217, 119, 87, 0.4); }
+  .faq-item summary {
+    padding: 22px 24px;
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.15vw, 17px);
+    font-weight: 600;
+    color: var(--paper);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--orange);
+    flex-shrink: 0;
+    transition: transform 0.25s;
+    line-height: 1;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item p {
+    padding: 0 24px 22px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: rgba(245, 239, 228, 0.65);
+    line-height: 1.6;
+    border-top: 1px solid rgba(245, 239, 228, 0.06);
+    margin-top: 0;
+    padding-top: 18px;
+  }
 </style>
 </head>
 <body>
@@ -543,6 +653,28 @@
       referrerpolicy="strict-origin-when-cross-origin"
       title="Claude Intensive"
       allowfullscreen></iframe>
+  </div>
+</section>
+
+<section class="promo-section">
+  <div class="promo-inner">
+    <div class="promo-eyebrow-wrap">
+      <span class="section-eyebrow"><span>Базова інформація</span></span>
+    </div>
+    <h2 class="promo-title">Хочете <em>більше</em>?</h2>
+    <p class="promo-desc">
+      Це лише вступ. Щоб навчитись Claude і AI на максимум — подивіться коротке відео про повний курс <strong>Claude Hero</strong>.
+    </p>
+    <div class="video-frame">
+      <!-- замінити src на реальне відео про курс -->
+      <iframe
+        src=""
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        title="Claude Hero — повний курс"
+        allowfullscreen></iframe>
+    </div>
   </div>
 </section>
 
@@ -591,6 +723,37 @@
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
         </a>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="faq-inner">
+    <div class="faq-head">
+      <div class="section-eyebrow" style="justify-content: center;"><span>FAQ</span></div>
+      <h2 class="faq-title">Відповіді на <em>питання</em></h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Для кого цей курс?</summary>
+        <p>Для фрілансерів, підприємців, маркетологів, менеджерів — всіх, хто хоче ефективно використовувати Claude і AI у своїй роботі. Досвід із AI не потрібен.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Що я отримаю в результаті?</summary>
+        <p>Практичні навички роботи з Claude: від базових промптів до налаштування агентів, MCP-серверів і скілів. Зможете автоматизувати рутину і запустити власні AI-інструменти.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Як проходить навчання?</summary>
+        <p>Відеоуроки + живі сесії з куратором. Матеріали залишаються — можна повертатись у будь-який час і проходити у зручному темпі.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Яка різниця між тарифами?</summary>
+        <p>Ронін — базовий старт у Claude без помилок новачка. Самурай — повне занурення під ваше ремесло. Майстер — персональний супровід і глибока кастомізація під ваш бізнес.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Коли старт і скільки коштує?</summary>
+        <p>Набір відкритий. Натисніть на тариф — я особисто напишу деталі і ціну в Telegram. Або залиште заявку нижче, і я вийду на зв'язок.</p>
+      </details>
     </div>
   </div>
 </section>
