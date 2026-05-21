@@ -666,9 +666,8 @@
       Це лише вступ. Щоб навчитись Claude і AI на максимум — подивіться коротке відео про повний курс <strong>Claude Hero</strong>.
     </p>
     <div class="video-frame">
-      <!-- замінити src на реальне відео про курс -->
       <iframe
-        src=""
+        src="https://player.vimeo.com/video/1193306659?h=09a152585a&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
         frameborder="0"
         allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
         referrerpolicy="strict-origin-when-cross-origin"
@@ -758,147 +757,10 @@
   </div>
 </section>
 
-<section class="form-section" id="signup">
-  <div class="form-inner">
-    <div class="form-head">
-      <div class="section-eyebrow">Ще не готовий обирати?</div>
-      <h2 class="form-title">Залиш заявку на <em>курс</em></h2>
-      <p class="form-desc">
-        Заповни анкету — надішлю деталі і дату старту, як буде готове.
-      </p>
-    </div>
-
-    <form id="signupForm" novalidate>
-      <div class="field">
-        <label>Хто ви за родом діяльності? <span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="role" value="Фрілансер / креативник" required> Фрілансер / креативник (дизайнер, копірайтер, відеограф)</label>
-          <label class="radio-option"><input type="radio" name="role" value="Solo-консультант / коуч"> Solo-консультант або коуч</label>
-          <label class="radio-option"><input type="radio" name="role" value="Маркетолог / SMM / агенція"> Маркетолог / SMM / агенція</label>
-          <label class="radio-option"><input type="radio" name="role" value="Підприємець / власник бізнесу"> Підприємець / власник бізнесу</label>
-          <label class="radio-option"><input type="radio" name="role" value="Менеджер / продакт у компанії"> Менеджер / продакт у компанії</label>
-          <label class="radio-option"><input type="radio" name="role" value="Студент / навчаюсь"> Студент / навчаюсь</label>
-          <label class="radio-option"><input type="radio" name="role" value="Інше"> Інше</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>На якому рівні ви зараз з Claude? <span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="level" value="Не користувався взагалі" required> Не користувався взагалі</label>
-          <label class="radio-option"><input type="radio" name="level" value="Спробував, але не зрозумів"> Спробував, але не зрозумів як використовувати</label>
-          <label class="radio-option"><input type="radio" name="level" value="Регулярно для простих задач"> Користуюсь регулярно для простих задач (пишу тексти, ставлю питання)</label>
-          <label class="radio-option"><input type="radio" name="level" value="Активно, хочу глибше"> Активно використовую, хочу глибше (Skills, MCP, агенти)</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="pain">Що для вас зараз — головна задача або біль, з якою хочете допомогу від Claude? <span class="req">*</span></label>
-        <textarea id="pain" name="pain" required placeholder="Напишіть своїми словами — 1-2 речення. Наприклад: «Не встигаю вести соцмережі», «Хочу запустити свій сервіс, але не знаю як без розробників»..."></textarea>
-      </div>
-
-      <div class="field">
-        <label for="result">Який результат від курсу був би для вас «вау, окупився»? <span class="req">*</span></label>
-        <textarea id="result" name="result" required placeholder="Що конкретно ви хотіли б отримати або зробити після курсу?"></textarea>
-      </div>
-
-      <div class="field">
-        <label>Який бюджет ви готові виділити на навчання Claude цього місяця? <span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="budget" value="До €30" required> До €30 (шукаю безкоштовне або дуже дешеве)</label>
-          <label class="radio-option"><input type="radio" name="budget" value="€30–80"> €30–80 (готовий платити за якісне)</label>
-          <label class="radio-option"><input type="radio" name="budget" value="€80–150"> €80–150 (інвестую в розвиток, якщо тема релевантна)</label>
-          <label class="radio-option"><input type="radio" name="budget" value="€150+"> €150+ (готовий до глибокого навчання, без обмежень)</label>
-          <label class="radio-option"><input type="radio" name="budget" value="Поки не готовий платити"> Поки не готовий платити, придивляюсь</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Як швидко ви готові долучитись? <span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="timing" value="Записуюсь зараз" required> Готовий записатися зараз, як тільки відкриється продаж</label>
-          <label class="radio-option"><input type="radio" name="timing" value="Чекаю деталей"> Чекаю більше деталей перед рішенням</label>
-          <label class="radio-option"><input type="radio" name="timing" value="Не цього сезону"> Цікаво, але не цього сезону — слідкую</label>
-          <label class="radio-option"><input type="radio" name="timing" value="Збираю інформацію"> Просто збираю інформацію поки що</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="contact">Telegram-нік або email для звʼязку <span class="req">*</span></label>
-        <input type="text" id="contact" name="contact" required placeholder="Telegram-нік (наприклад @vitalii) або email" autocomplete="email" />
-      </div>
-
-      <div class="field">
-        <label for="phone">Номер телефону для SMS <span class="req">*</span></label>
-        <input type="tel" id="phone" name="phone" required placeholder="+380 XX XXX XX XX" autocomplete="tel" inputmode="tel" />
-      </div>
-
-      <div class="form-submit">
-        <button type="submit" class="btn-primary" id="submitBtn">
-          <span>Залишити заявку</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-        </button>
-        <div class="form-status" id="formStatus"></div>
-      </div>
-    </form>
-
-    <div class="success-card" id="successCard">
-      <h3>Дякую! Заявка прийнята ✦</h3>
-      <p>Надішлю деталі і дату старту, як буде готове. Слідкуй за поштою або Telegram.</p>
-    </div>
-  </div>
-</section>
-
 <footer>
   Claude·Hero · Курс · <a href="/">На головну</a>
 </footer>
 
-<script>
-  // Form submission
-  (function () {
-    const form = document.getElementById('signupForm');
-    const status = document.getElementById('formStatus');
-    const submitBtn = document.getElementById('submitBtn');
-    const successCard = document.getElementById('successCard');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      status.textContent = '';
-      status.className = 'form-status';
-
-      const data = Object.fromEntries(new FormData(form).entries());
-      if (!data.role || !data.level || !data.pain || !data.result || !data.budget || !data.timing || !data.contact || !data.phone) {
-        status.textContent = 'Заповни всі обовʼязкові поля';
-        status.className = 'form-status error';
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
-      status.textContent = 'Відправляю...';
-
-      try {
-        const res = await fetch('/api/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        if (!res.ok) throw new Error('Помилка серверу: ' + res.status);
-        form.style.display = 'none';
-        successCard.classList.add('show');
-        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } catch (err) {
-        status.textContent = 'Не вдалось відправити. Спробуй ще раз або напиши мені у Telegram.';
-        status.className = 'form-status error';
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '1';
-      }
-    });
-  })();
-</script>
 
 </body>
 </html>
