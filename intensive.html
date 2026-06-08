@@ -704,6 +704,7 @@
     padding: 18px 20px;
     display: grid;
     gap: 14px;
+    margin-top: auto;
   }
   .tariff-card.featured .bonus-box {
     background: rgba(217, 119, 87, 0.12);
@@ -1151,7 +1152,7 @@
   Claude·Hero · Курс · <a href="/">На головну</a>
 </footer>
 
-<script>(function(){var end=new Date('2026-06-30T23:59:59+03:00').getTime();function p(n){return n<10?'0'+n:''+n;}function tick(){var diff=end-Date.now();if(diff<0)diff=0;var s=Math.floor(diff/1000),d=Math.floor(s/86400);s%=86400;var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;var vals={d:p(d),h:p(h),m:p(m),s:p(s)};document.querySelectorAll('[data-cd]').forEach(function(el){var k=el.getAttribute('data-cd');if(vals[k]!==undefined)el.textContent=vals[k];});}tick();setInterval(tick,1000);})();</script>
+<script>(function(){var CYCLE=22*60+35;function p(n){return n<10?'0'+n:''+n;}function tick(){var elapsed=Math.floor(Date.now()/1000)%CYCLE;var rem=CYCLE-1-elapsed;var m=Math.floor(rem/60),s=rem%60;var vals={d:'00',h:'00',m:p(m),s:p(s)};document.querySelectorAll('[data-cd]').forEach(function(el){var k=el.getAttribute('data-cd');if(vals[k]!==undefined)el.textContent=vals[k];});}tick();setInterval(tick,1000);})();</script>
 
 </body>
 </html>
