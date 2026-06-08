@@ -532,7 +532,7 @@
     color: var(--paper);
     font-variation-settings: "opsz" 144;
   }
-  .tariff-card.featured .tariff-price-main { color: #b4f046; }
+  .tariff-card.featured .tariff-price-main { color: var(--orange); }
   .tariff-price-old {
     font-family: var(--font-body);
     font-size: 17px;
@@ -556,7 +556,7 @@
   .tariff-features li::before { flex-shrink: 0; font-size: 12px; margin-top: 2px; }
   .tariff-features li.inc { color: rgba(245, 239, 228, 0.85); }
   .tariff-features li.inc::before { content: '✓'; color: var(--orange); font-weight: 700; }
-  .tariff-card.featured .tariff-features li.inc::before { color: #b4f046; }
+  .tariff-card.featured .tariff-features li.inc::before { color: var(--orange); }
   .tariff-features li.exc { color: rgba(245, 239, 228, 0.28); }
   .tariff-features li.exc::before { content: '✕'; color: rgba(245, 239, 228, 0.2); }
   .tariff-features li.exc span { text-decoration: line-through; text-decoration-color: rgba(245, 239, 228, 0.18); }
@@ -578,7 +578,7 @@
     border-radius: 100px;
     color: rgba(245, 239, 228, 0.5);
   }
-  .tariff-tag.tag-hi { border-color: rgba(184, 240, 70, 0.4); color: #b4f046; }
+  .tariff-tag.tag-hi { border-color: rgba(217, 119, 87, 0.5); color: var(--orange); }
   .tariff-note {
     font-family: var(--font-body);
     font-size: 11px;
@@ -695,6 +695,162 @@
     margin-top: 0;
     padding-top: 18px;
   }
+
+  /* ===== BONUS BOX + COUNTDOWN ===== */
+  .bonus-box {
+    background: rgba(217, 119, 87, 0.06);
+    border: 1px solid rgba(217, 119, 87, 0.28);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: grid;
+    gap: 14px;
+  }
+  .tariff-card.featured .bonus-box {
+    background: rgba(217, 119, 87, 0.12);
+    border-color: rgba(217, 119, 87, 0.45);
+  }
+  .bonus-label {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--orange);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .bonus-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .bonus-list li {
+    display: flex; gap: 10px; align-items: center;
+    font-family: var(--font-body);
+    font-size: 13.5px; color: rgba(245, 239, 228, 0.88);
+  }
+  .bonus-list li::before {
+    content: '✦'; color: var(--orange); font-size: 11px; flex-shrink: 0;
+  }
+  .bonus-divider { height: 1px; background: rgba(217, 119, 87, 0.22); }
+
+  .countdown-label {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--orange);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-bottom: 10px;
+  }
+  .countdown-cells {
+    display: flex; justify-content: center; align-items: flex-start; gap: 6px;
+  }
+  .cd-cell { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cd-num {
+    font-family: var(--font-mono);
+    font-size: 22px; font-weight: 700;
+    color: var(--orange);
+    background: rgba(10, 10, 10, 0.55);
+    border: 1px solid rgba(217, 119, 87, 0.22);
+    border-radius: 8px;
+    padding: 8px 10px;
+    min-width: 48px;
+    text-align: center;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+  .cd-unit {
+    font-family: var(--font-mono);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(245, 239, 228, 0.42);
+  }
+  .cd-sep {
+    font-family: var(--font-mono);
+    font-size: 18px; font-weight: 700;
+    color: rgba(245, 239, 228, 0.25);
+    padding-top: 8px;
+  }
+
+  /* ===== PRICE BLOCK (bottom) ===== */
+  .tariff-price-block { display: grid; gap: 6px; padding: 4px 0; }
+  .tariff-price-uah-current {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: rgba(245, 239, 228, 0.5);
+  }
+  .tariff-price-old-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .tariff-price-uah-old {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(245, 239, 228, 0.25);
+    text-decoration: line-through;
+  }
+
+  /* ===== CTA STACK ===== */
+  .tariff-cta-stack { display: grid; gap: 10px; }
+  .cta-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(245, 239, 228, 0.14);
+    background: rgba(245, 239, 228, 0.03);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .cta-row:hover {
+    border-color: var(--orange);
+    background: rgba(217, 119, 87, 0.08);
+  }
+  .cta-row .cta-title { font-size: 14px; font-weight: 600; color: var(--paper); letter-spacing: -0.005em; }
+  .cta-badge {
+    font-family: var(--font-mono);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 2px 6px;
+    border: 1px solid rgba(245, 239, 228, 0.4);
+    border-radius: 4px;
+    color: rgba(245, 239, 228, 0.8);
+  }
+  .cta-price {
+    margin-left: auto;
+    font-family: var(--font-display);
+    font-weight: 700; font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .cta-meta {
+    font-family: var(--font-mono);
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(245, 239, 228, 0.42);
+    line-height: 1.45;
+  }
+  .cta-info-vertical { display: flex; flex-direction: column; gap: 3px; flex-grow: 1; }
+  .cta-arrow {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .cta-telegram .cta-meta { margin-left: auto; }
+  .cta-telegram .cta-arrow { margin-left: 8px; }
+
+  .cta-pay {
+    border-color: var(--orange);
+    background: rgba(217, 119, 87, 0.1);
+  }
+  .tariff-card.featured .cta-pay {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+  .tariff-card.featured .cta-pay:hover {
+    background: var(--orange-deep);
+    border-color: var(--orange-deep);
+  }
+  .tariff-card.featured .cta-pay .cta-badge {
+    border-color: rgba(245, 239, 228, 0.6);
+    color: var(--paper);
+  }
 </style>
 </head>
 <body>
@@ -756,11 +912,6 @@
       <article class="tariff-card">
         <div class="tariff-eyebrow">Тариф · 浪人</div>
         <h3 class="tariff-name">Ронін</h3>
-        <div class="tariff-price-row">
-          <div class="tariff-price-main">€79</div>
-          <div class="tariff-price-old">€99</div>
-        </div>
-        <div class="tariff-price-uah">≈ 4 065 грн</div>
 
         <ul class="tariff-features">
           <li class="inc"><span>Модуль 00 · Початок: Claude як OS</span></li>
@@ -801,10 +952,59 @@
           </div>
         </div>
 
-        <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/gqyn9p?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=ronin" target="_blank" rel="noopener">
-          <span>Записатись · Ронін</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
+        <div class="bonus-box">
+          <div class="bonus-label">🎁 Бонуси включено</div>
+          <ul class="bonus-list">
+            <li>$300 на Nano Banana</li>
+            <li>Ван-шот сайт</li>
+            <li>30+ скілів пакетом</li>
+          </ul>
+          <div class="bonus-divider"></div>
+          <div class="countdown">
+            <div class="countdown-label">⏰ Доступно ще</div>
+            <div class="countdown-cells">
+              <div class="cd-cell"><span class="cd-num" data-cd="d">00</span><span class="cd-unit">дн</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-cell"><span class="cd-num" data-cd="h">00</span><span class="cd-unit">год</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-cell"><span class="cd-num" data-cd="m">00</span><span class="cd-unit">хв</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-cell"><span class="cd-num" data-cd="s">00</span><span class="cd-unit">сек</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tariff-price-block">
+          <div class="tariff-price-row">
+            <span class="tariff-price-main">€99</span>
+            <span class="tariff-price-uah-current">≈ 5 049 грн</span>
+          </div>
+          <div class="tariff-price-old-row">
+            <span class="tariff-price-old">€129</span>
+            <span class="tariff-price-uah-old">≈ 6 579 грн</span>
+          </div>
+        </div>
+
+        <div class="tariff-cta-stack">
+          <a class="cta-row cta-pay" href="https://app.leeloo.ai/telegram/messenger-redirect/gqyn9p?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=ronin_full" target="_blank" rel="noopener">
+            <span class="cta-title">Оплатити повністю</span>
+            <span class="cta-badge">-10%</span>
+            <span class="cta-price">€89</span>
+          </a>
+          <a class="cta-row cta-installments" href="https://app.leeloo.ai/telegram/messenger-redirect/gqyn9p?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=ronin_parts" target="_blank" rel="noopener">
+            <div class="cta-info-vertical">
+              <span class="cta-title">Оплата частинами</span>
+              <span class="cta-meta">2-4 платежі · MONOBANK · PRIVAT · A-BANK</span>
+            </div>
+            <span class="cta-arrow">→</span>
+          </a>
+          <a class="cta-row cta-telegram" href="https://app.leeloo.ai/telegram/messenger-redirect/gqyn9p?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=ronin_tg" target="_blank" rel="noopener">
+            <span class="cta-title">Зв'язок</span>
+            <span class="cta-meta">через Telegram</span>
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+
         <p class="tariff-note">Для комфортного проходження курсу потрібна підписка Claude Pro від $20/міс (окремо від ціни тарифу).</p>
       </article>
 
@@ -813,11 +1013,6 @@
         <div class="tariff-badge">· Рекомендую ·</div>
         <div class="tariff-eyebrow">Тариф · 侍</div>
         <h3 class="tariff-name">Самурай</h3>
-        <div class="tariff-price-row">
-          <div class="tariff-price-main">€99</div>
-          <div class="tariff-price-old">€149</div>
-        </div>
-        <div class="tariff-price-uah">≈ 5 095 грн</div>
 
         <ul class="tariff-features">
           <li class="inc"><span>Модуль 00 · Початок: Claude як OS</span></li>
@@ -861,10 +1056,59 @@
           </div>
         </div>
 
-        <a class="tariff-cta" href="https://app.leeloo.ai/telegram/messenger-redirect/bm92li?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=samurai" target="_blank" rel="noopener">
-          <span>Записатись · Самурай</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
+        <div class="bonus-box">
+          <div class="bonus-label">🎁 Бонуси включено</div>
+          <ul class="bonus-list">
+            <li>$300 на Nano Banana</li>
+            <li>Ван-шот сайт</li>
+            <li>30+ скілів пакетом</li>
+          </ul>
+          <div class="bonus-divider"></div>
+          <div class="countdown">
+            <div class="countdown-label">⏰ Доступно ще</div>
+            <div class="countdown-cells">
+              <div class="cd-cell"><span class="cd-num" data-cd="d">00</span><span class="cd-unit">дн</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-cell"><span class="cd-num" data-cd="h">00</span><span class="cd-unit">год</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-cell"><span class="cd-num" data-cd="m">00</span><span class="cd-unit">хв</span></div>
+              <span class="cd-sep">:</span>
+              <div class="cd-cell"><span class="cd-num" data-cd="s">00</span><span class="cd-unit">сек</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tariff-price-block">
+          <div class="tariff-price-row">
+            <span class="tariff-price-main">€119</span>
+            <span class="tariff-price-uah-current">≈ 6 069 грн</span>
+          </div>
+          <div class="tariff-price-old-row">
+            <span class="tariff-price-old">€169</span>
+            <span class="tariff-price-uah-old">≈ 8 619 грн</span>
+          </div>
+        </div>
+
+        <div class="tariff-cta-stack">
+          <a class="cta-row cta-pay" href="https://app.leeloo.ai/telegram/messenger-redirect/bm92li?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=samurai_full" target="_blank" rel="noopener">
+            <span class="cta-title">Оплатити повністю</span>
+            <span class="cta-badge">-10%</span>
+            <span class="cta-price">€107</span>
+          </a>
+          <a class="cta-row cta-installments" href="https://app.leeloo.ai/telegram/messenger-redirect/bm92li?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=samurai_parts" target="_blank" rel="noopener">
+            <div class="cta-info-vertical">
+              <span class="cta-title">Оплата частинами</span>
+              <span class="cta-meta">2-4 платежі · MONOBANK · PRIVAT · A-BANK</span>
+            </div>
+            <span class="cta-arrow">→</span>
+          </a>
+          <a class="cta-row cta-telegram" href="https://app.leeloo.ai/telegram/messenger-redirect/bm92li?utm_source=claude-hero&amp;utm_medium=intensive&amp;utm_campaign=tariffs&amp;utm_content=samurai_tg" target="_blank" rel="noopener">
+            <span class="cta-title">Зв'язок</span>
+            <span class="cta-meta">через Telegram</span>
+            <span class="cta-arrow">→</span>
+          </a>
+        </div>
+
         <p class="tariff-note">Для комфортного проходження курсу потрібна підписка Claude Pro від $20/міс (окремо від ціни тарифу).</p>
       </article>
 
@@ -906,6 +1150,8 @@
 <footer>
   Claude·Hero · Курс · <a href="/">На головну</a>
 </footer>
+
+<script>(function(){var end=new Date('2026-06-30T23:59:59+03:00').getTime();function p(n){return n<10?'0'+n:''+n;}function tick(){var diff=end-Date.now();if(diff<0)diff=0;var s=Math.floor(diff/1000),d=Math.floor(s/86400);s%=86400;var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;var vals={d:p(d),h:p(h),m:p(m),s:p(s)};document.querySelectorAll('[data-cd]').forEach(function(el){var k=el.getAttribute('data-cd');if(vals[k]!==undefined)el.textContent=vals[k];});}tick();setInterval(tick,1000);})();</script>
 
 </body>
 </html>
