@@ -718,6 +718,37 @@
     font-size: 15px;
     line-height: 1.55;
   }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 20px;
+    text-align: center;
+    background: var(--ink);
+    color: rgba(245, 239, 228, 0.4);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  footer a { color: var(--orange); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .footer-nav { margin-bottom: 16px; }
+  footer .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 14px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba(245, 239, 228, 0.5);
+  }
+  footer .footer-legal a { color: rgba(245, 239, 228, 0.7); }
+  footer .footer-legal a:hover { color: var(--orange); }
+  footer .footer-legal span { opacity: 0.3; }
 </style>
 </head>
 <body>
@@ -1010,6 +1041,19 @@
     </div>
   </div>
 </section>
+
+<footer>
+  <div class="footer-nav">Claude·Hero · <a href="/intensive">Курс</a> · <a href="/guides">Гайди</a></div>
+  <div class="footer-legal">
+    <a href="https://www.creo.ua/oferta" target="_blank" rel="noopener noreferrer">Договір оферти</a>
+    <span>·</span>
+    <a href="https://www.creo.ua/guarantee" target="_blank" rel="noopener noreferrer">Гарантія повернення</a>
+    <span>·</span>
+    <a href="https://my.creo.ua/documents/consent-to-the-mailing.pdf" target="_blank" rel="noopener noreferrer">Згода з розсилкою</a>
+    <span>·</span>
+    <a href="https://www.creo.ua/policy" target="_blank" rel="noopener noreferrer">Політика конфіденційності</a>
+  </div>
+</footer>
 
 <script>
   (function () {

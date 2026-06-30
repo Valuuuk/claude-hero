@@ -368,6 +368,24 @@
     color: rgba(245, 239, 228, 0.4);
   }
   footer a { color: var(--orange); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  footer .footer-nav { margin-bottom: 16px; }
+  footer .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 14px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba(245, 239, 228, 0.5);
+  }
+  footer .footer-legal a { color: rgba(245, 239, 228, 0.7); }
+  footer .footer-legal a:hover { color: var(--orange); }
+  footer .footer-legal span { opacity: 0.3; }
 
   @media (max-width: 700px) {
     .btn-primary { padding: 14px 22px; font-size: 11px; }
@@ -1149,7 +1167,16 @@
 </section>
 
 <footer>
-  Claude·Hero · Курс · <a href="/">На головну</a>
+  <div class="footer-nav">Claude·Hero · Курс · <a href="/">На головну</a></div>
+  <div class="footer-legal">
+    <a href="https://www.creo.ua/oferta" target="_blank" rel="noopener noreferrer">Договір оферти</a>
+    <span>·</span>
+    <a href="https://www.creo.ua/guarantee" target="_blank" rel="noopener noreferrer">Гарантія повернення</a>
+    <span>·</span>
+    <a href="https://my.creo.ua/documents/consent-to-the-mailing.pdf" target="_blank" rel="noopener noreferrer">Згода з розсилкою</a>
+    <span>·</span>
+    <a href="https://www.creo.ua/policy" target="_blank" rel="noopener noreferrer">Політика конфіденційності</a>
+  </div>
 </footer>
 
 <script>(function(){var end=new Date('2026-07-03T23:59:59+03:00').getTime();function p(n){return n<10?'0'+n:''+n;}function tick(){var diff=end-Date.now();if(diff<0)diff=0;var s=Math.floor(diff/1000),d=Math.floor(s/86400);s%=86400;var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;var vals={d:p(d),h:p(h),m:p(m),s:p(s)};document.querySelectorAll('[data-cd]').forEach(function(el){var k=el.getAttribute('data-cd');if(vals[k]!==undefined)el.textContent=vals[k];});}tick();setInterval(tick,1000);})();</script>
