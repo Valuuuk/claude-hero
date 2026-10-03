@@ -1,0 +1,80 @@
+# Правила віддачі сайту в Docker на Hetzner (Coolify → Traefik → цей контейнер, :8080).
+# Перекладено з vercel.json ({"cleanUrls": true, "trailingSlash": false}),
+# коли Vercel вимкнули за несплату (10.2026).
+#
+# ⚠️ Адреса блоку — лише `:8080`, без імені хоста. Щойно в адресі з'являється
+# хост (`example.com:8080`), Caddy вмикає на порту TLS, а Traefik шле сюди
+# звичайний HTTP — і КОЖЕН запит отримує 400 Bad Request (перевірено на creo-golv).
+{
+	admin off
+	auto_https off
+}
+
+:8080 {
+	root * /srv
+	log {
+		output stdout
+		format console
+	}
+
+	# Здоров'я контейнера. Навмисно НЕ залежить від node (/api): Traefik знімає
+	# unhealthy-контейнер з роутингу цілком, і падіння API не має гасити сайт.
+	handle /_health {
+		respond "ok" 200
+	}
+
+	# "?" + рядок запиту, якщо він є, — щоб редіректи нижче не губили UTM-мітки
+	# (Vercel їх зберігав). Готового {?query} у Caddy 2.8 ще немає.
+	map {query} {qs} {
+		~^(.+)$ ?$1
+		default ""
+	}
+
+	# trailingSlash: false — /x/ → /x (308), як на Vercel; для /api теж.
+	# /styles/ виключено: тека ассетів без index.html, редіректити нема куди.
+	@trailing {
+		path_regexp trailing ^/+([^/].*?)/+$
+		not path /styles/*
+	}
+	redir @trailing /{re.trailing.1}{qs} 308
+
+	header {
+		X-Frame-Options SAMEORIGIN
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	encode zstd gzip
+
+	# Колишні serverless-функції Vercel — фоновий node (api/server.js, docker-start.sh).
+	handle /api/* {
+		request_body {
+			max_size 5MB
+		}
+		reverse_proxy 127.0.0.1:3001
+	}
+
+	handle {
+		# cleanUrls: .html прибирається з адреси (308, рядок запиту зберігається)
+		@subindex path_regexp subindex ^/+([^/].*?)/index\.html$
+		redir @subindex /{re.subindex.1}{qs} 308
+		@rootindex path /index.html
+		redir @rootindex /{qs} 308
+		@dothtml path_regexp dothtml ^/+([^/].*?)\.html$
+		redir @dothtml /{re.dothtml.1}{qs} 308
+
+		# Кеш — як віддавав Vercel без власних правил: браузер щоразу перепитує
+		# (дешево: ETag → 304). "?" = ставити, ЛИШЕ якщо заголовка ще немає;
+		# без нього правило затирало б кеш, виставлений точнішими правилами.
+		header ?Cache-Control "public, max-age=0, must-revalidate"
+
+		# {path}/index.html — першим і без голого {path}: інакше file_server
+		# віддав би теку й пішов у канонічний редірект /x → /x/, який б'ється
+		# з trailingSlash: false (петля).
+		try_files {path}/index.html {path}.html
+		file_server
+	}
+
+	handle_errors {
+		respond "{err.status_code} {err.status_text}"
+	}
+}

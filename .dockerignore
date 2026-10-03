@@ -1,0 +1,15 @@
+# Усе, чого тут немає, Dockerfile кладе в корінь сайту (/srv) — тобто
+# віддає публічно. Нові службові файли додавати сюди.
+.git
+.gitignore
+.github
+.claude
+.vercel
+vercel.json
+Dockerfile
+.dockerignore
+**/.env*
+**/.DS_Store
+**/node_modules
+**/*.md
+**/*.log
