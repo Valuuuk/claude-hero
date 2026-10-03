@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /crm
 
-Sitemap: https://claude-hero.vercel.app/sitemap.xml
+Sitemap: https://claude-hero.creo.ua/sitemap.xml
