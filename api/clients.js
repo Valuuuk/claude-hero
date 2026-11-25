@@ -2,9 +2,6 @@
 // Окремий "реєстр клієнтів", не впливає на статистику по заявках.
 import { checkAuth } from './_gist.js';
 
-const DEFAULT_CSV =
-  'https://docs.google.com/spreadsheets/d/1DB_TI0stLf57xpStSmUG49AZxLvHAEpl/export?format=csv';
-
 function parseCSV(t) {
   const rows = [];
   let row = [], cur = '', q = false;
@@ -43,7 +40,10 @@ export default async function handler(req, res) {
   if (!auth.ok) return res.status(auth.code).json({ error: auth.error });
 
   try {
-    const csvUrl = process.env.PAYERS_CSV_URL || DEFAULT_CSV;
+    // Адресу таблиці покупців у коді не тримаємо: раніше вона лежала тут, у публічному
+    // репозиторії, і таблиця відкривалась кожному за посиланням (аудит 22.11.2026).
+    const csvUrl = process.env.PAYERS_CSV_URL;
+    if (!csvUrl) return res.status(503).json({ error: 'PAYERS_CSV_URL not configured' });
     const r = await fetch(csvUrl);
     if (!r.ok) throw new Error(`CSV ${r.status}`);
     const rows = parseCSV(await r.text());
